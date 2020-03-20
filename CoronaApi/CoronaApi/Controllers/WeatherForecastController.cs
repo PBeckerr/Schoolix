@@ -6,26 +6,24 @@ using CoronaApi.BackgroundServices.Channels;
 using CoronaApi.MediatR.Commands;
 using CoronaApi.MediatR.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CoronaApi.Controllers
 {
     public class WeatherForecastController : BaseV1ApiController
     {
-        private readonly FileProcessingChannel _fileProcessingChannel;
         private readonly IMediator _mediator;
 
-        public WeatherForecastController(IMediator mediator, FileProcessingChannel fileProcessingChannel)
+        public WeatherForecastController(IMediator mediator)
         {
-            this._fileProcessingChannel = fileProcessingChannel;
             this._mediator = mediator;
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<WeatherForecast>> Get([FromQuery]GetAllWeatherForecastsQuery query)
         {
-            await this._fileProcessingChannel.AddFileAsync(Guid.NewGuid().ToString());
             return await this._mediator.Send(query)
                              .ConfigureAwait(false);
         }
