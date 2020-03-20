@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CoronaApi.Controllers
 {
-    public class OidcConfigurationController : BaseV1ApiController
+    public class OidcConfigurationController : ControllerBase
     {
         private readonly ILogger<OidcConfigurationController> logger;
 

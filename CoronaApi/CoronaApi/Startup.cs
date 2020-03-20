@@ -58,10 +58,11 @@ namespace CoronaApi
 
             services.AddResponseCompression();
             services.AddResponseCaching();
-
-            services.AddControllers()
+            services.AddControllersWithViews()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                     .AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
+            services.AddRazorPages();
+
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
@@ -141,6 +142,7 @@ namespace CoronaApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             app.UseSpa(spa =>

@@ -1,4 +1,4 @@
-export const ApplicationName = 'WebApplication2';
+export const ApplicationName = 'CoronaApi';
 
 export const ReturnUrlType = 'returnUrl';
 
