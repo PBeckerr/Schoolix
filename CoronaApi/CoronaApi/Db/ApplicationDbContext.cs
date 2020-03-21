@@ -56,6 +56,14 @@ namespace CoronaApi.Db
                 entity.Property(e => e.Url).HasMaxLength(2000).IsRequired();
             });
 
+            builder.Entity<DbSchool>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.OwnerId).IsRequired();
+                entity.HasMany(e => e.Subjects).WithOne().HasForeignKey(e => e.SchoolId);
+                entity.HasMany(e => e.SchoolYears).WithOne().HasForeignKey(e => e.SchoolId);
+            });
+
             builder.Entity<DbSchoolClass>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -71,7 +79,15 @@ namespace CoronaApi.Db
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Begin).HasColumnType("date").IsRequired();
                 entity.Property(e => e.End).HasColumnType("date").IsRequired();
+                entity.Property(e => e.SchoolId).IsRequired();
                 entity.HasMany(e => e.Classes).WithOne(e => e.SchoolYear).HasForeignKey(e => e.SchoolYearId);
+            });
+
+            builder.Entity<DbSubject>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.SchoolId).IsRequired();
+                entity.Property(e => e.Name).HasMaxLength(50).IsRequired();
             });
 
             builder.Entity<DbSubmission>(entity =>
@@ -99,10 +115,14 @@ namespace CoronaApi.Db
         public DbSet<DbExerciseFile> ExerciseFiles { get; set; }
 
         public DbSet<DbFile> Files { get; set; }
+        
+        public DbSet<DbSchool> Schools { get; set; }
 
         public DbSet<DbSchoolClass> Classes { get; set; }
 
         public DbSet<DbSchoolYear> SchoolYears { get; set; }
+        
+        public DbSet<DbSubject> Subjects { get; set; }
 
         public DbSet<DbSubmission> Submissions { get; set; }
 

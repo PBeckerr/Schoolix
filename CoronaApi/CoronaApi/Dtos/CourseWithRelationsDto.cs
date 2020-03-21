@@ -17,6 +17,10 @@ namespace CoronaApi.Dtos
 
         public List<ExerciseDto> Exercises { get; set; }
 
+        public Guid SubjectId { get; set; }
+        
+        public virtual SubjectDto Subject { get; set; }
+
         // TODO: Add Students
 
         // TODO: Add Teacher

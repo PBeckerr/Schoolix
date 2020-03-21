@@ -14,7 +14,7 @@ namespace CoronaApi.Dtos
         public DateTime End { get; set; }
 
         public List<SchoolClassDto> Classes { get; set; }
-
-        // TODO: Add School
+        
+        public Guid SchoolId { get; set; }
     }
 }

@@ -18,6 +18,6 @@ namespace CoronaApi.Db.Types
         
         public virtual HashSet<DbSchoolClass> Classes { get; set; }
         
-        // TODO: Add School
+        public Guid SchoolId { get; set; }
     }
 }

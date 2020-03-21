@@ -19,6 +19,10 @@ namespace CoronaApi.Db.Types
         
         public virtual HashSet<DbExercise> Exercises { get; set; }
         
+        public Guid SubjectId { get; set; }
+        
+        public virtual DbSubject Subject { get; set; }
+        
         // TODO: Add Students
         
         // TODO: Add Teacher
