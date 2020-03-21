@@ -2,6 +2,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AppComponent } from './app.component';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,

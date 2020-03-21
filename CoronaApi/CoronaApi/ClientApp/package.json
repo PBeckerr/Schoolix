@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "8.2.12",
+    "@angular/animations": "^8.2.12",
     "@angular/common": "8.2.12",
     "@angular/compiler": "8.2.12",
     "@angular/core": "8.2.12",
@@ -28,6 +28,8 @@
     "jquery": "3.4.1",
     "oidc-client": "1.9.1",
     "popper.js": "^1.16.1",
+    "primeicons": "^2.0.0",
+    "primeng": "^9.0.2",
     "rxjs": "^6.5.4",
     "zone.js": "0.9.1"
   },
