@@ -30,7 +30,7 @@ namespace CoronaApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ExerciseDto> Put([FromRoute] Guid id, UpdateExerciseCommand query)
+        public async Task<ExerciseDto> Put([FromRoute] Guid id, [FromForm] UpdateExerciseCommand query)
         {
             query.Id = id;
             return await this.Mediator.Send(query);
