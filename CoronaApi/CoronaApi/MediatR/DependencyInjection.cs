@@ -2,7 +2,7 @@
 using AutoMapper;
 using CoronaApi.BackgroundServices;
 using CoronaApi.BackgroundServices.Channels;
-using CoronaApi.MediatR.Behaviors;
+using CoronaApi.MediatR.Core.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

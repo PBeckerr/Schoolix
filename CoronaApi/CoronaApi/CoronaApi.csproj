@@ -38,7 +38,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="MediatR\Submission\Queries" />
       <Folder Include="Migrations" />
       <Folder Include="UploadedFiles" />
     </ItemGroup>

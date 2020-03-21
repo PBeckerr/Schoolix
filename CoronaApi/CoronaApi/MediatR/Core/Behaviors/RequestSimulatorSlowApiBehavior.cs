@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace CoronaApi.MediatR.Behaviors
+namespace CoronaApi.MediatR.Core.Behaviors
 {
     /// <summary>
     ///     Can be used to slow down whole handling of request.

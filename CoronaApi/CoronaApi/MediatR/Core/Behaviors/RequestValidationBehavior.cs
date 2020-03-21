@@ -6,7 +6,7 @@ using FluentValidation;
 using MediatR;
 using ValidationException = CoronaApi.Core.ValidationException;
 
-namespace CoronaApi.MediatR.Behaviors
+namespace CoronaApi.MediatR.Core.Behaviors
 {
     public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
