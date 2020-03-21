@@ -15,4 +15,8 @@ export class CoursesComponent implements OnInit {
   ngOnInit() {
   }
 
+  routeCourse(id: string) {
+
+  }
+
 }
