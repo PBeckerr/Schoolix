@@ -7,16 +7,18 @@ namespace CoronaApi.Db.Types
     {
         public DbSubmission()
         {
-            Files = new HashSet<DbFile>();
+            SubmissionFiles = new HashSet<DbSubmissionFile>();
         }
         
         public Guid Id { get; set; }
 
         public DateTime Date { get; set; }
         
+        public Guid ExerciseId { get; set; }
+        
         public virtual DbExercise Exercise { get; set; }
 
-        public virtual ICollection<DbFile> Files { get; set; }
+        public virtual ICollection<DbSubmissionFile> SubmissionFiles { get; set; }
         
         // TODO: Add Student
     }

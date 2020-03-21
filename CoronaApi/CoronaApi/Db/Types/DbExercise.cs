@@ -17,6 +17,10 @@ namespace CoronaApi.Db.Types
         public string Description { get; set; }
         
         public DateTime ExpirationDate { get; set; }
+        
+        public Guid CourseId { get; set; }
+        
+        public virtual DbCourse Course { get; set; }
 
         public virtual ICollection<DbExerciseFile> ExerciseFiles { get; set; }
     }
