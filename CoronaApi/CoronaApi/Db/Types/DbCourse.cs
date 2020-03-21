@@ -15,9 +15,9 @@ namespace CoronaApi.Db.Types
 
         public string Name { get; set; }
 
-        public virtual ICollection<DbCourseSchoolClassRelation> ClassRelations { get; set; }
+        public virtual HashSet<DbCourseSchoolClassRelation> ClassRelations { get; set; }
         
-        public virtual ICollection<DbExercise> Exercises { get; set; }
+        public virtual HashSet<DbExercise> Exercises { get; set; }
         
         // TODO: Add Students
         

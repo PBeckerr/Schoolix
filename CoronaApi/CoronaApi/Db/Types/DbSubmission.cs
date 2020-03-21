@@ -18,7 +18,7 @@ namespace CoronaApi.Db.Types
         
         public virtual DbExercise Exercise { get; set; }
 
-        public virtual ICollection<DbSubmissionFile> SubmissionFiles { get; set; }
+        public virtual HashSet<DbSubmissionFile> SubmissionFiles { get; set; }
         
         // TODO: Add Student
     }
