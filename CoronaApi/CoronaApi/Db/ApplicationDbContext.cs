@@ -1,4 +1,5 @@
-﻿using CoronaApi.Models;
+﻿using CoronaApi.Db.Types;
+using CoronaApi.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -13,5 +14,7 @@ namespace CoronaApi.Db
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<DbExercise> Exercises { get; set; }
     }
 }
