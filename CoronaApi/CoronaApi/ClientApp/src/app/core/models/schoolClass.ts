@@ -5,4 +5,5 @@ export interface SchoolClass {
   grade: number;
   label: string;
   teacher: User;
+  students: User[];
 }

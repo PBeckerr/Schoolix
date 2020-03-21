@@ -1,0 +1,16 @@
+<p-accordion>
+  <p-accordionTab *ngFor="let exercise of exercises"
+    [header]="exercise.name + ' (Abgabe bis ' + (exercise.expirationDate | date:'dd.MM.yyyy HH:mm') + ' Uhr)'">
+    <p [innerHTML]="exercise.description"></p>
+    <div *ngIf="exercise.files && exercise.files.length >= 1" class="files">
+      <h3>Zugehörige Dateien</h3>
+      <div *ngFor="let file of exercise.files" class="download">
+        <i class="pi pi-file"></i>{{file.name}}
+        <p-button icon="pi pi-download"></p-button>
+      </div>
+    </div>
+    <div class="submission">
+      <h3>Aufgabenlösung einreichen</h3>
+    </div>
+  </p-accordionTab>
+</p-accordion>

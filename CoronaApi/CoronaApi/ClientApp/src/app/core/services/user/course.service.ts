@@ -19,7 +19,26 @@ export class CourseService {
         userType: UserType.Student
       }],
       name: 'LK Mathe Kl. 12',
-      exercises: [],
+      exercises: [
+        {
+          id: '@example-exercise-01',
+          name: 'Erste Beispielaufgabe',
+          description: 'Diese Aufgabe ist <b>sehr</b> wichtig!',
+          expirationDate: '2020-05-05',
+          files: [
+            {
+              id: '@example-file-01',
+              name: 'datei1.pdf',
+              url: 'https://example.com/files/datei1.pdf'
+            },
+            {
+              id: '@example-file-02',
+              name: 'datei2.png',
+              url: 'https://example.com/files/datei2.png'
+            }
+          ]
+        }
+      ],
       teacher: {
         id: '@example-teacher-01',
         name: 'Frau Lehrerin',
