@@ -7,19 +7,14 @@ namespace CoronaApi.Dtos
 {
     public class SchoolYearDto : IMapFrom<DbSchoolYear>
     {
-        public SchoolYearDto()
-        {
-            Classes = new HashSet<SchoolClassDto>();
-        }
-        
         public Guid Id { get; set; }
 
         public DateTime Begin { get; set; }
-        
+
         public DateTime End { get; set; }
-        
-        public HashSet<SchoolClassDto> Classes { get; set; }
-        
+
+        public List<SchoolClassDto> Classes { get; set; }
+
         // TODO: Add School
     }
 }

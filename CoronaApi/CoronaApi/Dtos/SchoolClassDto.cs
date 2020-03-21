@@ -9,11 +9,6 @@ namespace CoronaApi.Dtos
 {
     public class SchoolClassDto : IMapFrom<DbSchoolClass>
     {
-        public SchoolClassDto()
-        {
-            Courses = new HashSet<CourseDto>();
-        }
-
         public Guid Id { get; set; }
 
         public byte Grade { get; set; }
@@ -24,7 +19,7 @@ namespace CoronaApi.Dtos
 
         public SchoolYearDto SchoolYear { get; set; }
 
-        public HashSet<CourseDto> Courses { get; set; }
+        public List<CourseDto> Courses { get; set; }
 
         public void Mapping(Profile profile)
         {

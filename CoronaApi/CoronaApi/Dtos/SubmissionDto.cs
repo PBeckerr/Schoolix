@@ -9,11 +9,6 @@ namespace CoronaApi.Dtos
 {
     public class SubmissionDto : IMapFrom<DbSubmission>
     {
-        public SubmissionDto()
-        {
-            Files = new HashSet<FileDto>();
-        }
-
         public Guid Id { get; set; }
 
         public DateTime Date { get; set; }
@@ -22,7 +17,7 @@ namespace CoronaApi.Dtos
 
         public ExerciseDto Exercise { get; set; }
 
-        public HashSet<FileDto> Files { get; set; }
+        public List<FileDto> Files { get; set; }
 
         // TODO: Add Student
 
