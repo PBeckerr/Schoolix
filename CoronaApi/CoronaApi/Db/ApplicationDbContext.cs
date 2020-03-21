@@ -17,6 +17,13 @@ namespace CoronaApi.Db
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>(entity =>
+            {
+                entity.Property(e => e.UserType).IsRequired();
+                entity.Property(e => e.FirstName).HasMaxLength(100);
+                entity.Property(e => e.LastName).HasMaxLength(100);
+            });
+            
             builder.Entity<DbCourse>(entity =>
             {
                 entity.HasKey(e => e.Id);
