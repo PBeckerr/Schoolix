@@ -39,9 +39,9 @@ namespace CoronaApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IdentityResult>> Register(ApplicationUserDto applicationUserDto)
+        public async Task<ActionResult<IdentityResult>> Register(LoginDto loginDto)
         {
-            await this._signInManager.PasswordSignInAsync(applicationUserDto.UserName, applicationUserDto.Password, true, false);
+            await this._signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
             return this.Ok();
         }
     }

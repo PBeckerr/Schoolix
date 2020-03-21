@@ -18,7 +18,6 @@ namespace CoronaApi.MediatR.Submission.Commands
 {
     public class CreateSubmissionCommand : IRequest<SubmissionDto>, IMapFrom<DbSubmission>
     {
-        public Guid Id { get; set; }
         public DateTime Date { get; set; }
 
         public Guid ExerciseId { get; set; }
