@@ -27,11 +27,4 @@ namespace CoronaApi.Dtos
                 .ForMember(e => e.Classes, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)));
         }
     }
-
-    public class CourseDto : IMapFrom<DbCourse>
-    {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-    }
 }
