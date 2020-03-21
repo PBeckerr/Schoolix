@@ -1,13 +1,20 @@
 <ng-container *ngIf="user">
   <div [ngSwitch]="user.userType">
-    <p *ngSwitchCase="UserType.School">
+    <div *ngSwitchCase="UserType.School">
 
-    </p>
-    <p *ngSwitchCase="UserType.Teacher">
+    </div>
+    <div *ngSwitchCase="UserType.Teacher">
 
-    </p>
-    <p *ngSwitchCase="UserType.Student">
-      <app-courses [courses]="userCourses"></app-courses>
-    </p>
+    </div>
+    <div *ngSwitchCase="UserType.Student">
+      <div>
+        <h1>Meine Kurse</h1>
+        <app-courses [courses]="userCourses"></app-courses>
+      </div>
+      <div style="clear: both;">
+        <h1>Meine Aufgaben</h1>
+        <app-exercises [exercises]="userExercises"></app-exercises>
+      </div>
+    </div>
   </div>
 </ng-container>

@@ -1,7 +1,7 @@
 import { Course } from '../../models/course';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { UserService } from './user.service';
+import { UserService } from '../user/user.service';
 import { UserType } from '../../models/user';
 
 @Injectable({

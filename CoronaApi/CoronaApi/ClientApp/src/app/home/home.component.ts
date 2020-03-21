@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../core/models/course';
-import { CourseService } from '../core/services/user/course.service';
+import { CourseService } from '../core/services/course/course.service';
+import { Exercise } from '../core/models/exercise';
+import { ExerciseService } from '../core/services/exercise/exercise.service';
 import { User, UserType } from '../core/models/user';
 import { UserService } from '../core/services/user/user.service';
 
@@ -13,10 +15,12 @@ export class HomeComponent implements OnInit {
   user: User;
   UserType = UserType;
   userCourses: Course[];
+  userExercises: Exercise[];
 
   constructor(
     private userService: UserService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private exerciseService: ExerciseService
   ) { }
 
   ngOnInit() {
@@ -27,6 +31,9 @@ export class HomeComponent implements OnInit {
   loadData() {
     this.courseService.getUserCourses().subscribe(courses => {
       this.userCourses = courses;
+    });
+    this.exerciseService.getUserExercises().subscribe(exercises => {
+      this.userExercises = exercises;
     });
   }
 
