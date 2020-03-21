@@ -17,5 +17,7 @@ namespace CoronaApi.Db.Types
         public DateTime End { get; set; }
         
         public virtual ICollection<DbSchoolClass> Classes { get; set; }
+        
+        // TODO: Add School
     }
 }

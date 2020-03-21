@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using CoronaApi.Db.Types;
+using CoronaApi.Mapping;
 
 namespace CoronaApi.Dtos
 {
-    public class ExerciseDto
+    public class ExerciseDto : IMapFrom<DbExercise>
     {
         public ExerciseDto()
         {
@@ -17,7 +19,11 @@ namespace CoronaApi.Dtos
         public string Description { get; set; }
         
         public DateTime ExpirationDate { get; set; }
+        
+        public Guid CourseId { get; set; }
+        
+        public CourseDto Course { get; set; }
 
-        public virtual ICollection<FileDto> Files { get; set; }
+        public HashSet<FileDto> Files { get; set; }
     }
 }

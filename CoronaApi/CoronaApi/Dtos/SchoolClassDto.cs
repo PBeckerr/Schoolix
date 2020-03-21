@@ -1,8 +1,10 @@
 using System;
+using CoronaApi.Db.Types;
+using CoronaApi.Mapping;
 
-namespace CoronaApi.Db.Types
+namespace CoronaApi.Dtos
 {
-    public class DbSchoolClass
+    public class SchoolClassDto : IMapFrom<DbSchoolClass>
     {
         public Guid Id { get; set; }
 
