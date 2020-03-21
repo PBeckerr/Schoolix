@@ -20,10 +20,10 @@ namespace CoronaApi.Dtos
         // TODO: Add Students
 
         // TODO: Add Teacher
-        
+
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<DbCourse, CourseDto>()
+            profile.CreateMap<DbCourse, CourseWithRelationsDto>()
                 .ForMember(e => e.Classes, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)));
         }
     }
