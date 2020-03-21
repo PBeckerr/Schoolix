@@ -21,7 +21,7 @@ namespace CoronaApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "School")]
         public async Task<IEnumerable<WeatherForecast>> Get([FromQuery]GetAllWeatherForecastsQuery query)
         {
             return await this._mediator.Send(query)

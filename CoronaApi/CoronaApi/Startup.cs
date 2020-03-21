@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoronaApi.Core;
 using CoronaApi.Db;
+using CoronaApi.Identity;
 using CoronaApi.MediatR;
 using CoronaApi.Models;
 using FluentValidation.AspNetCore;
@@ -43,7 +46,12 @@ namespace CoronaApi
             services.AddAuthentication()
                     .AddIdentityServerJwt();
 
-            AddIdentityOptions(services);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("School", builder => builder.RequireClaim("School"));
+                options.AddPolicy("Teacher", builder => builder.RequireClaim("Teacher"));
+                options.AddPolicy("Student", builder => builder.RequireClaim("Student"));
+            });
 
             //might be not desirable depending on project
             services.AddCors(options =>
@@ -68,6 +76,9 @@ namespace CoronaApi
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
+            services.AddScoped<UserManager<ApplicationUser>, SchoolUserManager>();
         }
 
         private void AddIdentityOptions(IServiceCollection services)
