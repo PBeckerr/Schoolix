@@ -1,5 +1,6 @@
 <ng-container *ngIf="course; else spinner">
-  <h1>Kurs „{{course.name}}“ <span class="sub-title">({{course.teacher.name}}, {{course.subject.name}})</span></h1>
+  <h1>Kurs „{{course.name}}“ <span class="sub-title">(<span
+        *ngIf="userType !== UserType.Teacher">{{course.teacher.name}}, </span>{{course.subject.name}})</span></h1>
   <span [ngSwitch]="userType">
     <div *ngSwitchCase="UserType.Student">
       <h2>Zu erledigende Aufgaben</h2>
