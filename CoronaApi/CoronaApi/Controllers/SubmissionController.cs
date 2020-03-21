@@ -11,7 +11,7 @@ namespace CoronaApi.Controllers
     public class SubmissionController : BaseV1ApiController
     {
         [HttpPost]
-        public async Task<SubmissionDto> Post(CreateSubmissionCommand command)
+        public async Task<SubmissionDto> Post([FromForm] CreateSubmissionCommand command)
         {
             return await this.Mediator.Send(command);
         }

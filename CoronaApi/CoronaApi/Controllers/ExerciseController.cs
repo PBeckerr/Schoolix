@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApi.Controllers
 {
-    [Authorize(Policy = "School")]
     public class ExerciseController : BaseV1ApiController
     {
         [HttpPost]
-        public async Task<ExerciseDto> Post(CreateExerciseCommand command)
+        public async Task<ExerciseDto> Post([FromForm] CreateExerciseCommand command)
         {
             return await this.Mediator.Send(command);
         }
