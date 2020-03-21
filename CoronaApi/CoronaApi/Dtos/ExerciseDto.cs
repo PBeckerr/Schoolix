@@ -23,6 +23,8 @@ namespace CoronaApi.Dtos
 
         public List<FileDto> Files { get; set; }
 
+        public List<SubmissionDto> Submissions { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DbExercise, ExerciseDto>()
