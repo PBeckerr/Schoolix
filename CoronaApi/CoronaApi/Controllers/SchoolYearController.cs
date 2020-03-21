@@ -12,7 +12,7 @@ namespace CoronaApi.Controllers
     {
         [HttpPost]
         [Authorize(Policy = "School")]
-        public async Task<SchoolYearDto> Create([FromQuery]CreateSchoolYearCommand command)
+        public async Task<SchoolYearDto> Create([FromForm]CreateSchoolYearCommand command)
         {
             return await Mediator.Send(command);
         }
@@ -28,6 +28,13 @@ namespace CoronaApi.Controllers
         public async Task<SchoolYearDto> GetById([FromQuery]GetSchoolYearByIdQuery query)
         {
             return await Mediator.Send(query);
+        }
+        
+        [HttpPut]
+        [Authorize(Policy = "School")]
+        public async Task<SchoolYearDto> Update([FromForm] UpdateSchoolYearCommand command)
+        {
+            return await Mediator.Send(command);
         }
     }
 }
