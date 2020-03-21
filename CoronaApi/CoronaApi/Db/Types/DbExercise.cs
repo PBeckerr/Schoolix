@@ -8,6 +8,7 @@ namespace CoronaApi.Db.Types
         public DbExercise()
         {
             ExerciseFiles = new HashSet<DbExerciseFile>();
+            Submissions = new HashSet<DbSubmission>();
         }
 
         public Guid Id { get; set; }
@@ -23,5 +24,7 @@ namespace CoronaApi.Db.Types
         public virtual DbCourse Course { get; set; }
 
         public virtual HashSet<DbExerciseFile> ExerciseFiles { get; set; }
+        
+        public virtual HashSet<DbSubmission> Submissions { get; set; }
     }
 }

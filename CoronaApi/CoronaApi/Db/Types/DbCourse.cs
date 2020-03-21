@@ -7,7 +7,7 @@ namespace CoronaApi.Db.Types
     {
         public DbCourse()
         {
-            Classes = new HashSet<DbSchoolClass>();
+            ClassRelations = new HashSet<DbCourseSchoolClassRelation>();
             Exercises = new HashSet<DbExercise>();
         }
         
@@ -15,7 +15,7 @@ namespace CoronaApi.Db.Types
 
         public string Name { get; set; }
 
-        public virtual ICollection<DbSchoolClass> Classes { get; set; }
+        public virtual ICollection<DbCourseSchoolClassRelation> ClassRelations { get; set; }
         
         public virtual ICollection<DbExercise> Exercises { get; set; }
         
