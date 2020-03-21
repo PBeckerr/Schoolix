@@ -20,14 +20,14 @@ namespace CoronaApi.Dtos
 
         public List<FileDto> Files { get; set; }
 
-        public Guid StudentId { get; set; }
+        public string StudentId { get; set; }
 
         public ApplicationUserDto Student { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DbSubmission, SubmissionDto>()
-                .ForMember(x => x.Files, o => o.MapFrom(x => x.SubmissionFiles.Select(sf => sf.File)));
+                   .ForMember(x => x.Files, o => o.MapFrom(x => x.SubmissionFiles.Select(sf => sf.File)));
         }
     }
 }

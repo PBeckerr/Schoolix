@@ -1,19 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using CoronaApi.Core;
 using CoronaApi.Db;
 using CoronaApi.Identity;
 using CoronaApi.MediatR;
 using CoronaApi.Models;
 using FluentValidation.AspNetCore;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +27,7 @@ namespace CoronaApi
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
             this.Env = env;
         }
 
@@ -40,8 +38,7 @@ namespace CoronaApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                                                            options.UseSqlServer(
-                                                                Configuration.GetConnectionString("DefaultConnection")));
+                                                            options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -82,10 +79,7 @@ namespace CoronaApi
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
-            services.AddScoped<UserManager<ApplicationUser>, SchoolUserManager>();
-
-            if (Env.EnvironmentName.StartsWith("Development"))
+            if (this.Env.EnvironmentName.StartsWith("Development"))
             {
                 services.AddOpenApiDocument(configure =>
                 {
@@ -93,6 +87,8 @@ namespace CoronaApi
                     configure.Version = "1.0.1";
                 });
             }
+
+            services.AddTransient<IProfileService, ProfileService>();
         }
 
         private void AddIdentityOptions(IServiceCollection services)
@@ -156,7 +152,7 @@ namespace CoronaApi
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(),"UploadedFiles")),
+                    Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles")),
                 RequestPath = "/UploadedFiles"
             });
             if (!env.IsDevelopment())
@@ -178,8 +174,8 @@ namespace CoronaApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    "default",
+                    "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
@@ -192,7 +188,7 @@ namespace CoronaApi
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseAngularCliServer("start");
                 }
             });
         }

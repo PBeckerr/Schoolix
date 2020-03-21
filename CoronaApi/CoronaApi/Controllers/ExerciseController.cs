@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApi.Controllers
 {
+    [Authorize(Policy = "School")]
     public class ExerciseController : BaseV1ApiController
     {
         [HttpPost]
@@ -18,8 +19,9 @@ namespace CoronaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ExerciseDto>> GetAll([FromQuery]GetAllExerciseQuery query)
+        public async Task<List<ExerciseDto>> GetAll([FromQuery] GetAllExerciseQuery query)
         {
+            var claimsPrincipal = this.User;
             return await this.Mediator.Send(query);
         }
 
