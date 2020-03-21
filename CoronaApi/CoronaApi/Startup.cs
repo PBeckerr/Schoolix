@@ -90,7 +90,7 @@ namespace CoronaApi
                 services.AddOpenApiDocument(configure =>
                 {
                     configure.Title = "Schoolix - Development";
-                    configure.Version = "1ü.0.1";
+                    configure.Version = "1.0.1";
                 });
             }
         }
