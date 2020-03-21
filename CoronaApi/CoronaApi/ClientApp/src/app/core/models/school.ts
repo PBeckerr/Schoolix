@@ -1,4 +1,4 @@
-import { SchoolYear } from './schoolyear';
+import { SchoolYear } from './schoolYear';
 
 export interface School {
   id: string;
