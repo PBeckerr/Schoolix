@@ -37,8 +37,6 @@ namespace CoronaApi.MediatR.Exercise.Commands
                     .NotEmpty();
                 this.RuleFor(command => command.CourseId)
                     .NotEmpty();
-                this.RuleFor(command => command.Files)
-                    .NotEmpty();
             }
         }
 

@@ -36,14 +36,14 @@ namespace CoronaApi.MediatR.Exercise.Commands
         {
             public UpdateExerciseCommandValidator()
             {
+                this.RuleFor(command => command.Id)
+                    .NotEmpty();
                 this.RuleFor(command => command.Title)
                     .MaximumLength(100)
                     .NotEmpty();
                 this.RuleFor(command => command.ExpirationDate)
                     .NotEmpty();
                 this.RuleFor(command => command.CourseId)
-                    .NotEmpty();
-                this.RuleFor(command => command.Id)
                     .NotEmpty();
             }
         }
