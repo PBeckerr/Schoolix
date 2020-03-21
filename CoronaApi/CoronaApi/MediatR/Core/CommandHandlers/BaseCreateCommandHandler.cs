@@ -9,22 +9,28 @@ namespace CoronaApi.MediatR.Core.CommandHandlers
     public class BaseCreateCommandHandler<TCommand, TReturn, TDatabaseModel> : IRequestHandler<TCommand, TReturn>
         where TCommand : IRequest<TReturn> where TDatabaseModel : class
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IMapper _mapper;
+        protected readonly ApplicationDbContext DbContext;
+        protected readonly IMapper Mapper;
 
         public BaseCreateCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
         {
-            this._mapper = mapper;
-            this._dbContext = dbContext;
+            this.Mapper = mapper;
+            this.DbContext = dbContext;
+        }
+
+        public virtual Task CustomCreateLogicAsync(TCommand request, TDatabaseModel dbModel)
+        {
+            return Task.CompletedTask;
         }
 
         public async Task<TReturn> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            var mapped = this._mapper.Map<TDatabaseModel>(request);
-            var newEntity = await this._dbContext.Set<TDatabaseModel>()
+            var mapped = this.Mapper.Map<TDatabaseModel>(request);
+            await CustomCreateLogicAsync(request, mapped);
+            var newEntity = await this.DbContext.Set<TDatabaseModel>()
                                       .AddAsync(mapped, cancellationToken);
-            await this._dbContext.SaveChangesAsync(cancellationToken);
-            return this._mapper.Map<TReturn>(newEntity);
+            await this.DbContext.SaveChangesAsync(cancellationToken);
+            return this.Mapper.Map<TReturn>(newEntity);
         }
     }
 }

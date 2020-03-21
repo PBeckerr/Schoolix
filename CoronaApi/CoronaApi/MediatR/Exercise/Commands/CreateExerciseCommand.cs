@@ -1,5 +1,5 @@
 using System;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using CoronaApi.Db;
@@ -9,6 +9,7 @@ using CoronaApi.Mapping;
 using CoronaApi.MediatR.Core.CommandHandlers;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace CoronaApi.MediatR.Exercise.Commands
 {
@@ -22,6 +23,8 @@ namespace CoronaApi.MediatR.Exercise.Commands
 
         public Guid CourseId { get; set; }
 
+        public IFormFileCollection Files { get; set; }
+
         public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
         {
             public CreateExerciseCommandValidator()
@@ -33,13 +36,44 @@ namespace CoronaApi.MediatR.Exercise.Commands
                     .NotEmpty();
                 this.RuleFor(command => command.CourseId)
                     .NotEmpty();
+                this.RuleFor(command => command.Files)
+                    .NotEmpty();
             }
         }
 
         public class CreateExerciseCommandHandler : BaseCreateCommandHandler<CreateExerciseCommand, ExerciseDto, DbExercise>
         {
-            public CreateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext) : base(mapper, dbContext)
+            private readonly IHttpContextAccessor _httpContextAccessor;
+
+            public CreateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IHttpContextAccessor contextAccessor) : base(mapper, dbContext)
             {
+                this._httpContextAccessor = contextAccessor;
+            }
+
+            public override async Task CustomCreateLogicAsync(CreateExerciseCommand request, DbExercise dbModel)
+            {
+                //TODO: maybe smarter logic
+                foreach (var requestFile in request.Files)
+                {
+                    var folder = Path.Combine(Directory.GetCurrentDirectory(), Statics.FileBasePath, request.CourseId.ToString());
+                    Directory.CreateDirectory(folder);
+                    var fullFilePath = Path.Combine(folder, requestFile.FileName);
+                    await using var fileWriter = new FileStream(fullFilePath, FileMode.Create);
+                    await requestFile.CopyToAsync(fileWriter);
+                    await fileWriter.FlushAsync();
+
+                    var staticFilePath =
+                        $"{this._httpContextAccessor.HttpContext.Request.Scheme}://{this._httpContextAccessor.HttpContext.Request.Host}{this._httpContextAccessor.HttpContext.Request.PathBase}{Statics.FileBasePath}/{requestFile.Name}";
+
+                    dbModel.ExerciseFiles.Add(new DbExerciseFile
+                    {
+                        File = new DbFile
+                        {
+                            Name = requestFile.FileName,
+                            Url = staticFilePath
+                        }
+                    });
+                }
             }
         }
     }
