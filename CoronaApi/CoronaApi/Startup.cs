@@ -153,6 +153,12 @@ namespace CoronaApi
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(),"UploadedFiles")),
+                RequestPath = "/UploadedFiles"
+            });
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
