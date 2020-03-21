@@ -37,7 +37,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="MediatR\Core\CommandHandlers" />
       <Folder Include="MediatR\Exercise\Queries" />
       <Folder Include="Migrations" />
     </ItemGroup>

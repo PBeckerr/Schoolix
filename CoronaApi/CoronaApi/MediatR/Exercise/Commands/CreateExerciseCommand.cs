@@ -6,6 +6,7 @@ using CoronaApi.Db;
 using CoronaApi.Db.Types;
 using CoronaApi.Dtos;
 using CoronaApi.Mapping;
+using CoronaApi.MediatR.Core.CommandHandlers;
 using FluentValidation;
 using MediatR;
 
@@ -35,22 +36,10 @@ namespace CoronaApi.MediatR.Exercise.Commands
             }
         }
 
-        public class CreateExerciseCommandHandler : IRequestHandler<CreateExerciseCommand, ExerciseDto>
+        public class CreateExerciseCommandHandler : BaseCreateCommandHandler<CreateExerciseCommand, ExerciseDto, DbExercise>
         {
-            private readonly IMapper _mapper;
-            private readonly ApplicationDbContext _dbContext;
-
-            public CreateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext)
+            public CreateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext) : base(mapper, dbContext)
             {
-                this._mapper = mapper;
-                this._dbContext = dbContext;
-            }
-            public async Task<ExerciseDto> Handle(CreateExerciseCommand request, CancellationToken cancellationToken)
-            {
-                var mapped = this._mapper.Map<DbExercise>(request);
-                var newEntity = await this._dbContext.Exercises.AddAsync(mapped, cancellationToken);
-                await this._dbContext.SaveChangesAsync(cancellationToken);
-                return this._mapper.Map<ExerciseDto>(newEntity);
             }
         }
     }

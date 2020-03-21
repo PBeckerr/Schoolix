@@ -69,7 +69,6 @@ namespace CoronaApi
             services.AddControllersWithViews()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                     .AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
-            services.AddRazorPages();
 
 
             // Customise default API behaviour

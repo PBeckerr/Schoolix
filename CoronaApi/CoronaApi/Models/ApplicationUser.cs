@@ -1,10 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CoronaApi.Mapping;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoronaApi.Models
 {
     public class ApplicationUser : IdentityUser
     {
         public UserType UserType { get; set; }
+    }
+
+    public class ApplicationUserDto : IMapFrom<ApplicationUser>
+    {
+        public UserType UserType { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 
     public enum UserType
