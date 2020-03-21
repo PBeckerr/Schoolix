@@ -4,8 +4,6 @@ namespace CoronaApi.Db.Types
 {
     public class DbSubmissionFile
     {
-        public Guid Id { get; set; }
-
         public Guid SubmissionId { get; set; }
 
         public Guid FileId { get; set; }

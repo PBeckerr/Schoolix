@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using CoronaApi.Db.Types;
 using CoronaApi.Mapping;
 
@@ -25,5 +27,11 @@ namespace CoronaApi.Dtos
         public CourseDto Course { get; set; }
 
         public HashSet<FileDto> Files { get; set; }
+        
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<DbExercise, ExerciseDto>()
+                .ForMember(x => x.Files, o => o.MapFrom(x => x.ExerciseFiles.Select(sf => sf.File)));
+        }
     }
 }
