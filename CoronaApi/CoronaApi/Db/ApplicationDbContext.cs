@@ -25,7 +25,7 @@ namespace CoronaApi.Db
             });
 
             builder.Entity<DbClassStudentRelation>(entity => entity.HasKey(e => new {e.ClassId, e.StudentId}));
-            
+
             builder.Entity<DbCourse>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -40,7 +40,7 @@ namespace CoronaApi.Db
             builder.Entity<DbCourseSchoolClassRelation>(entity => entity.HasKey(e => new {e.CourseId, e.ClassId}));
 
             builder.Entity<DbCourseStudentRelation>(entity => entity.HasKey(e => new {e.CourseId, e.StudentId}));
-            
+
             builder.Entity<DbExercise>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -66,10 +66,9 @@ namespace CoronaApi.Db
             builder.Entity<DbSchool>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.OwnerId).IsRequired();
                 entity.HasMany(e => e.Subjects).WithOne().HasForeignKey(e => e.SchoolId);
                 entity.HasMany(e => e.SchoolYears).WithOne().HasForeignKey(e => e.SchoolId);
-                entity.HasMany(e => e.Users).WithOne().HasForeignKey(e => e.SchoolId);
+                entity.HasMany(e => e.Users).WithOne(user => user.School).HasForeignKey(e => e.SchoolId);
             });
 
             builder.Entity<DbSchoolClass>(entity =>
@@ -112,16 +111,16 @@ namespace CoronaApi.Db
                 entity.HasKey(e => new {e.SubmissionId, e.FileId});
                 entity.HasOne(e => e.File).WithMany().HasForeignKey(e => e.FileId);
             });
-            
+
             base.OnModelCreating(builder);
         }
 
         public DbSet<DbClassStudentRelation> ClassStudentRelations { get; set; }
-        
+
         public DbSet<DbCourse> Courses { get; set; }
 
         public DbSet<DbCourseSchoolClassRelation> CourseClassRelations { get; set; }
-        
+
         public DbSet<DbCourseStudentRelation> CourseStudentRelations { get; set; }
 
         public DbSet<DbExercise> Exercises { get; set; }
@@ -129,13 +128,13 @@ namespace CoronaApi.Db
         public DbSet<DbExerciseFile> ExerciseFiles { get; set; }
 
         public DbSet<DbFile> Files { get; set; }
-        
+
         public DbSet<DbSchool> Schools { get; set; }
 
         public DbSet<DbSchoolClass> Classes { get; set; }
 
         public DbSet<DbSchoolYear> SchoolYears { get; set; }
-        
+
         public DbSet<DbSubject> Subjects { get; set; }
 
         public DbSet<DbSubmission> Submissions { get; set; }

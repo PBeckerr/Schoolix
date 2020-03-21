@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CoronaApi.Db;
+using CoronaApi.Db.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using CoronaApi.Models;
@@ -13,6 +15,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace CoronaApi.Areas.Identity.Pages.Account
@@ -23,17 +27,20 @@ namespace CoronaApi.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            IServiceScopeFactory serviceScopeFactory,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this._serviceScopeFactory = serviceScopeFactory;
             _emailSender = emailSender;
         }
 
@@ -78,11 +85,31 @@ namespace CoronaApi.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                EntityEntry<DbSchool> school = null;
+                using (var ser = this._serviceScopeFactory.CreateScope())
+                {
+                    var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
+                    school = dbContext.Schools.Add(new DbSchool()
+                    {
+                    });
+                    await dbContext.SaveChangesAsync();
+                }
+
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, UserType = Input.UserType};
+                user.SchoolId = school.Entity.Id;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    using (var ser = this._serviceScopeFactory.CreateScope())
+                    {
+                        var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
+                        var dbSchool = dbContext.Schools.Find(school.Entity.Id);
+                        dbSchool.OwnerId = user.Id;
+                        await dbContext.SaveChangesAsync();
+                    }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

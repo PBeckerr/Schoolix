@@ -4,14 +4,16 @@ using CoronaApi.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoronaApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200321175158_NEwOne")]
+    partial class NEwOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,12 +164,15 @@ namespace CoronaApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OwnerId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerId1");
 
                     b.ToTable("Schools");
                 });
@@ -672,7 +677,7 @@ namespace CoronaApi.Migrations
                 {
                     b.HasOne("CoronaApi.Models.ApplicationUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId1");
                 });
 
             modelBuilder.Entity("CoronaApi.Db.Types.DbSchoolClass", b =>
@@ -730,7 +735,7 @@ namespace CoronaApi.Migrations
 
             modelBuilder.Entity("CoronaApi.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("CoronaApi.Db.Types.DbSchool", "School")
+                    b.HasOne("CoronaApi.Db.Types.DbSchool", null)
                         .WithMany("Users")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
