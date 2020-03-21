@@ -1,10 +1,13 @@
-﻿using CoronaApi.Mapping;
+﻿using System;
+using CoronaApi.Mapping;
 using Microsoft.AspNetCore.Identity;
 
 namespace CoronaApi.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public Guid SchoolId { get; set; }
+        
         public UserType UserType { get; set; }
 
         public string FirstName { get; set; }

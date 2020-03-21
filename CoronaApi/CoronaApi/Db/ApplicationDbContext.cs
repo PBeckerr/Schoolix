@@ -69,6 +69,7 @@ namespace CoronaApi.Db
                 entity.Property(e => e.OwnerId).IsRequired();
                 entity.HasMany(e => e.Subjects).WithOne().HasForeignKey(e => e.SchoolId);
                 entity.HasMany(e => e.SchoolYears).WithOne().HasForeignKey(e => e.SchoolId);
+                entity.HasMany(e => e.Users).WithOne().HasForeignKey(e => e.SchoolId);
             });
 
             builder.Entity<DbSchoolClass>(entity =>
