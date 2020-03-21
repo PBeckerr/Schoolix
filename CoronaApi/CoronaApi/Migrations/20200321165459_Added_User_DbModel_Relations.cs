@@ -103,7 +103,7 @@ namespace CoronaApi.Migrations
                 column: "SchoolId",
                 principalTable: "Schools",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Courses_AspNetUsers_TeacherId",
@@ -111,7 +111,7 @@ namespace CoronaApi.Migrations
                 column: "TeacherId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Submissions_AspNetUsers_StudentId",
@@ -119,7 +119,7 @@ namespace CoronaApi.Migrations
                 column: "StudentId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
