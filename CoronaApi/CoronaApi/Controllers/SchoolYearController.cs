@@ -10,18 +10,14 @@ namespace CoronaApi.Controllers
 {
     public class SchoolYearController : BaseV1ApiController
     {
-        private UserManager<ApplicationUser> _userManager;
 
-        public SchoolYearController(UserManager<ApplicationUser> userManager)
+        public SchoolYearController()
         {
-            _userManager = userManager;
         }
         
         [HttpGet]
         public async Task<List<SchoolYearDto>> GetAll([FromQuery]GetAllSchoolYearsQuery query)
         {
-            query.User = await _userManager.GetUserAsync(User);
-            
             return await Mediator.Send(query);
         }
         
@@ -29,8 +25,6 @@ namespace CoronaApi.Controllers
         [Route("{id}")]
         public async Task<SchoolYearDto> GetById([FromQuery]GetSchoolYearByIdQuery query)
         {
-            query.User = await _userManager.GetUserAsync(User);
-            
             return await Mediator.Send(query);
         }
     }

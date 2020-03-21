@@ -9,30 +9,36 @@ using CoronaApi.Db;
 using CoronaApi.Dtos;
 using CoronaApi.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.SchoolYear.Queries
 {
     public class GetSchoolYearByIdQuery : IRequest<SchoolYearDto>
     {
-        public ApplicationUser User { get; set; }
-
         public Guid Id { get; set; }
 
         public class GetAllSchoolYearsQueryHandler : IRequestHandler<GetSchoolYearByIdQuery, SchoolYearDto>
         {
             private readonly ApplicationDbContext _dbContext;
             private readonly IMapper _mapper;
+            private IHttpContextAccessor _httpContextAccessor;
+            private UserManager<ApplicationUser> _userManager;
 
-            public GetAllSchoolYearsQueryHandler(ApplicationDbContext dbContext, IMapper mapper)
+            public GetAllSchoolYearsQueryHandler(ApplicationDbContext dbContext, IMapper mapper, UserManager<ApplicationUser> userManager, IHttpContextAccessor contextAccessor)
             {
                 _dbContext = dbContext;
                 _mapper = mapper;
+                _userManager = userManager;
+                _httpContextAccessor = contextAccessor;
             }
 
             public async Task<SchoolYearDto> Handle(GetSchoolYearByIdQuery query, CancellationToken cancellationToken)
             {
-                var result = await _dbContext.SchoolYears.Where(e => e.SchoolId == query.User.SchoolId)
+                var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+                
+                var result = await _dbContext.SchoolYears.Where(e => e.SchoolId == user.SchoolId)
                     .ProjectTo<SchoolYearDto>(_mapper.ConfigurationProvider)
                     .SingleOrDefaultAsync(e => e.Id == query.Id, cancellationToken);
 

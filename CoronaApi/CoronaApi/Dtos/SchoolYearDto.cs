@@ -16,5 +16,7 @@ namespace CoronaApi.Dtos
         public List<SchoolClassDto> Classes { get; set; }
         
         public Guid SchoolId { get; set; }
+
+        public string Name => $"{Begin.Year}/{End.Year}";
     }
 }
