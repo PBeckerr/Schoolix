@@ -9,8 +9,10 @@
         <p-button icon="pi pi-download"></p-button>
       </div>
     </div>
-    <div class="submission">
+    <div *ngIf="userType === UserType.Student" class="submission">
       <h3>Aufgabenlösung einreichen</h3>
+      <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="addFileForUpload($event)" multiple="multiple"
+        accept="image/*"></p-fileUpload>
     </div>
   </p-accordionTab>
 </p-accordion>

@@ -10,6 +10,7 @@ import { CardModule } from 'primeng/card';
 import { CourseComponent } from './course/course.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { FileUploadModule } from 'primeng/fileupload';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -40,7 +41,8 @@ import { RouterModule } from '@angular/router';
     CardModule,
     ProgressSpinnerModule,
     AccordionModule,
-    ButtonModule
+    ButtonModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
