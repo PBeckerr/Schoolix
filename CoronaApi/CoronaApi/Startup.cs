@@ -20,17 +20,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using NSwag;
 
 namespace CoronaApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            this.Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -80,6 +83,15 @@ namespace CoronaApi
 
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
             services.AddScoped<UserManager<ApplicationUser>, SchoolUserManager>();
+
+            if (Env.EnvironmentName.StartsWith("Development"))
+            {
+                services.AddOpenApiDocument(configure =>
+                {
+                    configure.Title = "Schoolix - Development";
+                    configure.Version = "1.0.1";
+                });
+            }
         }
 
         private void AddIdentityOptions(IServiceCollection services)
@@ -129,6 +141,13 @@ namespace CoronaApi
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+
+            if (env.EnvironmentName.StartsWith("Development"))
+            {
+                app.UseOpenApi(a => { a.PostProcess = (document, _) => { document.Schemes = new[] {OpenApiSchema.Https}; }; });
+                app.UseSwaggerUi3();
+                app.UseReDoc();
             }
 
             app.UseHttpsRedirection();
