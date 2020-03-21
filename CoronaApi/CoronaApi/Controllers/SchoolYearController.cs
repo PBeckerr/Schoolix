@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using CoronaApi.Dtos;
 using CoronaApi.MediatR.SchoolYear.Commands;
 using CoronaApi.MediatR.SchoolYear.Queries;
-using CoronaApi.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApi.Controllers
@@ -12,6 +11,7 @@ namespace CoronaApi.Controllers
     public class SchoolYearController : BaseV1ApiController
     {
         [HttpPost]
+        [Authorize(Policy = "School")]
         public async Task<SchoolYearDto> Create([FromQuery]CreateSchoolYearCommand command)
         {
             return await Mediator.Send(command);
