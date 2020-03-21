@@ -91,7 +91,7 @@ namespace CoronaApi.Migrations
                 column: "SchoolId",
                 principalTable: "Schools",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
