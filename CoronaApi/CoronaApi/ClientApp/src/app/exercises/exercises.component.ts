@@ -25,6 +25,7 @@ export class ExercisesComponent implements OnInit {
 
   addFileForUpload(event: any) {
     this.files = event.files;
+    // create submission with files
   }
 
 }
