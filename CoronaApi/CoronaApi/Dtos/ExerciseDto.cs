@@ -12,6 +12,7 @@ namespace CoronaApi.Dtos
         public ExerciseDto()
         {
             Files = new HashSet<FileDto>();
+            Submissions = new HashSet<SubmissionDto>();
         }
         
         public Guid Id { get; set; }
@@ -27,6 +28,8 @@ namespace CoronaApi.Dtos
         public CourseDto Course { get; set; }
 
         public HashSet<FileDto> Files { get; set; }
+        
+        public HashSet<SubmissionDto> Submissions { get; set; }
         
         public void Mapping(Profile profile)
         {
