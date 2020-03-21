@@ -21,7 +21,7 @@ namespace CoronaApi.Db.Types
 
         public virtual HashSet<DbSubmissionFile> SubmissionFiles { get; set; }
         
-        public Guid StudentId { get; set; }
+        public string StudentId { get; set; }
         
         public virtual ApplicationUser Student { get; set; }
     }

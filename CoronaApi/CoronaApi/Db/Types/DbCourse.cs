@@ -26,7 +26,7 @@ namespace CoronaApi.Db.Types
         
         public virtual HashSet<DbCourseStudentRelation> StudentRelations { get; set; }
         
-        public Guid TeacherId { get; set; }
+        public string TeacherId { get; set; }
         
         public virtual ApplicationUser Teacher { get; set; }
     }

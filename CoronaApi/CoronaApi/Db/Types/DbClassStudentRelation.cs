@@ -7,7 +7,7 @@ namespace CoronaApi.Db.Types
     {
         public Guid ClassId { get; set; }
         
-        public Guid StudentId { get; set; }
+        public string StudentId { get; set; }
         
         public virtual ApplicationUser Student { get; set; }
     }
