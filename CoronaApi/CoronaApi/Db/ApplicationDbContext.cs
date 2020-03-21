@@ -14,7 +14,21 @@ namespace CoronaApi.Db
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+        
+        public DbSet<DbCourse> Courses { get; set; }
 
         public DbSet<DbExercise> Exercises { get; set; }
+        
+        public DbSet<DbExerciseFile> ExerciseFiles { get; set; }
+
+        public DbSet<DbFile> Files { get; set; }
+
+        public DbSet<DbSchoolClass> Classes { get; set; }
+        
+        public DbSet<DbSchoolYear> SchoolYears { get; set; }
+
+        public DbSet<DbSubmission> Submissions { get; set; }
+
+        public DbSet<DbSubmissionFile> SubmissionFiles { get; set; }
     }
 }
