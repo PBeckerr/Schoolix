@@ -11,8 +11,8 @@ export class UserService {
   getCurrentUser(): User {
     return {
       id: '@example-user-01',
-      name: 'Max Musterschüler',
-      userType: UserType.Student
+      name: 'Gräfin Erika Angelika von und zu Pflaume-Im-Speckmantel',
+      userType: UserType.Teacher
     };
   }
 }

@@ -41,7 +41,7 @@ export class CourseService {
       ],
       teacher: {
         id: '@example-teacher-01',
-        name: 'Frau Lehrerin',
+        name: 'Gräfin Erika Angelika von und zu Pflaume-Im-Speckmantel',
         userType: UserType.Teacher
       },
       subject: {

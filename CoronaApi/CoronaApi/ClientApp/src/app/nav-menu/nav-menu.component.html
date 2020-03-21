@@ -10,6 +10,9 @@
         <li class="nav-item">
           <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
         </li>
+        <li *ngIf="user" class="nav-item">
+          <a>{{user.name}}</a>
+        </li>
       </ul>
     </div>
   </nav>
