@@ -21,5 +21,7 @@ namespace CoronaApi.Db.Types
         public virtual HashSet<DbSubject> Subjects { get; set; }
         
         public virtual HashSet<DbSchoolYear> SchoolYears { get; set; }
+        
+        // TODO: Add Teachers and Students
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using CoronaApi.Db.Types;
 using CoronaApi.Mapping;
+using CoronaApi.Models;
 
 namespace CoronaApi.Dtos
 {
@@ -21,14 +22,17 @@ namespace CoronaApi.Dtos
         
         public virtual SubjectDto Subject { get; set; }
 
-        // TODO: Add Students
+        public virtual List<ApplicationUserDto> Students { get; set; }
 
-        // TODO: Add Teacher
+        public Guid TeacherId { get; set; }
+        
+        public ApplicationUserDto Teacher { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DbCourse, CourseWithRelationsDto>()
-                .ForMember(e => e.Classes, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)));
+                .ForMember(e => e.Classes, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)))
+                .ForMember(e => e.Students, o => o.MapFrom(e => e.StudentRelations.Select(e => e.Student)));
         }
     }
 }

@@ -23,6 +23,8 @@ namespace CoronaApi.Db
                 entity.Property(e => e.FirstName).HasMaxLength(100);
                 entity.Property(e => e.LastName).HasMaxLength(100);
             });
+
+            builder.Entity<DbClassStudentRelation>(entity => entity.HasKey(e => new {e.ClassId, e.StudentId}));
             
             builder.Entity<DbCourse>(entity =>
             {
@@ -30,10 +32,15 @@ namespace CoronaApi.Db
                 entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
                 entity.HasMany(e => e.ClassRelations).WithOne(e => e.Course).HasForeignKey(e => e.CourseId);
                 entity.HasMany(e => e.Exercises).WithOne(e => e.Course).HasForeignKey(e => e.CourseId);
+                entity.Property(e => e.TeacherId).IsRequired();
+                entity.HasOne(e => e.Teacher).WithMany().HasForeignKey(e => e.TeacherId);
+                entity.HasMany(e => e.StudentRelations).WithOne().HasForeignKey(e => e.CourseId);
             });
 
             builder.Entity<DbCourseSchoolClassRelation>(entity => entity.HasKey(e => new {e.CourseId, e.ClassId}));
 
+            builder.Entity<DbCourseStudentRelation>(entity => entity.HasKey(e => new {e.CourseId, e.StudentId}));
+            
             builder.Entity<DbExercise>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -72,6 +79,7 @@ namespace CoronaApi.Db
                 entity.Property(e => e.SchoolYearId).IsRequired();
                 entity.HasMany(e => e.CourseRelations).WithOne(e => e.Class).HasForeignKey(e => e.ClassId);
                 entity.HasOne(e => e.SchoolYear).WithMany(e => e.Classes).HasForeignKey(e => e.SchoolYearId);
+                entity.HasMany(e => e.StudentRelations).WithOne().HasForeignKey(e => e.ClassId);
             });
 
             builder.Entity<DbSchoolYear>(entity =>
@@ -95,6 +103,7 @@ namespace CoronaApi.Db
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Date).IsRequired();
                 entity.HasOne(e => e.Exercise).WithMany(e => e.Submissions).HasForeignKey(e => e.ExerciseId);
+                entity.HasOne(e => e.Student).WithMany().HasForeignKey(e => e.StudentId);
             });
 
             builder.Entity<DbSubmissionFile>(entity =>
@@ -106,9 +115,13 @@ namespace CoronaApi.Db
             base.OnModelCreating(builder);
         }
 
+        public DbSet<DbClassStudentRelation> ClassStudentRelations { get; set; }
+        
         public DbSet<DbCourse> Courses { get; set; }
 
         public DbSet<DbCourseSchoolClassRelation> CourseClassRelations { get; set; }
+        
+        public DbSet<DbCourseStudentRelation> CourseStudentRelations { get; set; }
 
         public DbSet<DbExercise> Exercises { get; set; }
 

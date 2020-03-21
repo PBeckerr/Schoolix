@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using CoronaApi.Db.Types;
 using CoronaApi.Mapping;
+using CoronaApi.Models;
 
 namespace CoronaApi.Dtos
 {
@@ -19,7 +20,9 @@ namespace CoronaApi.Dtos
 
         public List<FileDto> Files { get; set; }
 
-        // TODO: Add Student
+        public Guid StudentId { get; set; }
+
+        public ApplicationUserDto Student { get; set; }
 
         public void Mapping(Profile profile)
         {

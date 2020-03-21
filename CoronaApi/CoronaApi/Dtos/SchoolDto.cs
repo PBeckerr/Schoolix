@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using CoronaApi.Db.Types;
+using CoronaApi.Mapping;
 using CoronaApi.Models;
 
 namespace CoronaApi.Dtos
 {
-    public class SchoolDto
+    public class SchoolDto : IMapFrom<DbSchool>
     {
         public SchoolDto()
         {
-            Subjects = new HashSet<SubjectDto>();
-            SchoolYears = new HashSet<SchoolYearDto>();
+            Subjects = new List<SubjectDto>();
+            SchoolYears = new List<SchoolYearDto>();
         }
         
         public Guid Id { get; set; }
@@ -19,8 +20,10 @@ namespace CoronaApi.Dtos
         
         public ApplicationUser Owner { get; set; }
         
-        public virtual HashSet<SubjectDto> Subjects { get; set; }
+        public virtual List<SubjectDto> Subjects { get; set; }
         
-        public virtual HashSet<SchoolYearDto> SchoolYears { get; set; }
+        public virtual List<SchoolYearDto> SchoolYears { get; set; }
+        
+        // TODO: Add Students
     }
 }

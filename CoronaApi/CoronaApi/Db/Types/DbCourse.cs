@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CoronaApi.Models;
 
 namespace CoronaApi.Db.Types
 {
@@ -23,8 +24,10 @@ namespace CoronaApi.Db.Types
         
         public virtual DbSubject Subject { get; set; }
         
-        // TODO: Add Students
+        public virtual HashSet<DbCourseStudentRelation> StudentRelations { get; set; }
         
-        // TODO: Add Teacher
+        public Guid TeacherId { get; set; }
+        
+        public virtual ApplicationUser Teacher { get; set; }
     }
 }
