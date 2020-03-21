@@ -1,6 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
@@ -13,4 +12,31 @@ code {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  width: 80%;
+  margin: auto;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 28px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  font-size: 20px;
+}
+.page {
+  padding: 16px;
 }

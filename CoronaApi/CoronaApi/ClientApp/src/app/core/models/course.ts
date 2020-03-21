@@ -1,5 +1,6 @@
 import { Exercise } from './exercise';
 import { SchoolClass } from './schoolClass';
+import { Subject } from './subject';
 import { User } from './user';
 
 export interface Course {
@@ -9,4 +10,5 @@ export interface Course {
   name: string;
   exercises: Exercise[];
   teacher: User;
+  subject: Subject;
 }
