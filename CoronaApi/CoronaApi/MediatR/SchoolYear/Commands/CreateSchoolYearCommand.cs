@@ -19,25 +19,26 @@ namespace CoronaApi.MediatR.SchoolYear.Commands
         public DateTime Begin { get; set; }
 
         public DateTime End { get; set; }
-        
+
         public Guid SchoolId { get; set; }
 
         public class CreateSchoolYearCommandValidator : AbstractValidator<CreateSchoolYearCommand>
         {
             public CreateSchoolYearCommandValidator(UserManager<ApplicationUser> userManager, IHttpContextAccessor contextAccessor)
             {
-                var userTask = userManager.GetUserAsync(contextAccessor.HttpContext.User);
-                Task.WhenAll(userTask);
-                var user = userTask.Result;
-                
                 RuleFor(c => c.Begin)
                     .NotEmpty()
                     .LessThan(c => c.End);
                 RuleFor(c => c.End)
                     .NotEmpty();
                 RuleFor(c => c.SchoolId)
-                    .NotEmpty()
-                    .Equal(c => user.SchoolId);
+                    .NotEmpty();
+                RuleFor(command => command.SchoolId)
+                    .MustAsync(async (schoolId, cancellationToken) =>
+                    {
+                        var user = await userManager.GetUserAsync(contextAccessor.HttpContext.User);
+                        return user.SchoolId == schoolId;
+                    });
             }
         }
 
