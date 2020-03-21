@@ -7,7 +7,7 @@
 
     </p>
     <p *ngSwitchCase="UserType.Student">
-      <app-courses></app-courses>
+      <app-courses [courses]="userCourses"></app-courses>
     </p>
   </div>
 </ng-container>
