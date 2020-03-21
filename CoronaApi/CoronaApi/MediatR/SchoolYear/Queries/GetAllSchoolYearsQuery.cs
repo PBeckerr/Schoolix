@@ -28,9 +28,9 @@ namespace CoronaApi.MediatR.SchoolYear.Queries
                 _mapper = mapper;
             }
             
-            public Task<List<SchoolYearDto>> Handle(GetAllSchoolYearsQuery query, CancellationToken cancellationToken)
+            public async Task<List<SchoolYearDto>> Handle(GetAllSchoolYearsQuery query, CancellationToken cancellationToken)
             {
-                return _dbContext.SchoolYears.Where(e => e.SchoolId == query.User.SchoolId)
+                return await _dbContext.SchoolYears.Where(e => e.SchoolId == query.User.SchoolId)
                     .ProjectTo<SchoolYearDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
             }
         }

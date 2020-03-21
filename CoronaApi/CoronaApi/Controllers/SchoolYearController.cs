@@ -24,5 +24,14 @@ namespace CoronaApi.Controllers
             
             return await Mediator.Send(query);
         }
+        
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<SchoolYearDto> GetById([FromQuery]GetSchoolYearByIdQuery query)
+        {
+            query.User = await _userManager.GetUserAsync(User);
+            
+            return await Mediator.Send(query);
+        }
     }
 }
