@@ -3,6 +3,7 @@ import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
+import {UserType} from '../app/core/models/user';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -31,6 +32,7 @@ export enum AuthenticationResultStatus {
 
 export interface IUser {
   name: string;
+  userType: UserType;
 }
 
 @Injectable({
@@ -51,7 +53,10 @@ export class AuthorizeService {
   public getUser(): Observable<IUser | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
-      this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
+      this.getUserFromStorage().pipe(filter(u => !!u), tap(u => {
+        console.log(u);
+        return this.userSubject.next(u);
+      })),
       this.userSubject.asObservable());
   }
 
