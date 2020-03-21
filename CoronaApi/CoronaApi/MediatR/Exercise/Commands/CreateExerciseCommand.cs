@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
+using CoronaApi.Core;
 using CoronaApi.Db;
 using CoronaApi.Db.Types;
 using CoronaApi.Dtos;
@@ -62,8 +63,7 @@ namespace CoronaApi.MediatR.Exercise.Commands
                     await requestFile.CopyToAsync(fileWriter);
                     await fileWriter.FlushAsync();
 
-                    var staticFilePath =
-                        $"{this._httpContextAccessor.HttpContext.Request.Scheme}://{this._httpContextAccessor.HttpContext.Request.Host}{this._httpContextAccessor.HttpContext.Request.PathBase}{Statics.FileBasePath}/{requestFile.Name}";
+                    var staticFilePath = StaticUrl.Get(this._httpContextAccessor, request.CourseId.ToString(), requestFile.Name);
 
                     dbModel.ExerciseFiles.Add(new DbExerciseFile
                     {
