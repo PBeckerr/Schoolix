@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using CoronaApi.Dtos;
 using CoronaApi.MediatR.Exercise.Commands;
 using CoronaApi.MediatR.Exercise.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApi.Controllers
 {
+    [Authorize(Policy = "School")]
     public class ExerciseController : BaseV1ApiController
     {
         [HttpPost]

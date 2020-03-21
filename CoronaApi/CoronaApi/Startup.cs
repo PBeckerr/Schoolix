@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -53,9 +54,9 @@ namespace CoronaApi
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("School", builder => builder.RequireClaim("School"));
-                options.AddPolicy("Teacher", builder => builder.RequireClaim("Teacher"));
-                options.AddPolicy("Student", builder => builder.RequireClaim("Student"));
+                options.AddPolicy("School", builder => builder.RequireClaim("userType", "School"));
+                options.AddPolicy("Teacher", builder => builder.RequireClaim("userType", "Teacher"));
+                options.AddPolicy("Student", builder => builder.RequireClaim("userType", "Student"));
             });
 
             //might be not desirable depending on project
@@ -89,7 +90,7 @@ namespace CoronaApi
                 services.AddOpenApiDocument(configure =>
                 {
                     configure.Title = "Schoolix - Development";
-                    configure.Version = "1.0.1";
+                    configure.Version = "1ü.0.1";
                 });
             }
         }
@@ -151,12 +152,7 @@ namespace CoronaApi
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(),"UploadedFiles")),
-                RequestPath = "/UploadedFiles"
-            });
+            app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();

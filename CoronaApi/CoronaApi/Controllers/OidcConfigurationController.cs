@@ -19,6 +19,7 @@ namespace CoronaApi.Controllers
         [HttpGet("_configuration/{clientId}")]
         public IActionResult GetClientRequestParameters([FromRoute]string clientId)
         {
+            var user = this.User;
             var parameters = this.ClientRequestParametersProvider.GetClientParameters(this.HttpContext, clientId);
             return this.Ok(parameters);
         }

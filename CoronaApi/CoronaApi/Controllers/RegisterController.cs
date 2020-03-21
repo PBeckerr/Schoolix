@@ -42,7 +42,7 @@ namespace CoronaApi.Controllers
         public async Task<ActionResult<IdentityResult>> Register(LoginDto loginDto)
         {
             await this._signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
-            return this.Ok();
+            return this.LocalRedirect("/authentication/logout-callback");
         }
     }
 }
