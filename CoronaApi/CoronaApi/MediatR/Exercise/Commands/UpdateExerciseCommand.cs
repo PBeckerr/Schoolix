@@ -1,20 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using CoronaApi.Core;
 using CoronaApi.Db;
 using CoronaApi.Db.Types;
 using CoronaApi.Dtos;
 using CoronaApi.Mapping;
-using CoronaApi.MediatR.Core.CommandHandlers;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.Exercise.Commands
 {
-    public class CreateExerciseCommand : IRequest<ExerciseDto>, IMapFrom<DbExercise>
+    public class UpdateExerciseCommand : IRequest<ExerciseDto>, IMapFrom<DbExercise>
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -25,9 +29,11 @@ namespace CoronaApi.MediatR.Exercise.Commands
 
         public IFormFileCollection Files { get; set; }
 
-        public class CreateExerciseCommandValidator : AbstractValidator<CreateExerciseCommand>
+        public List<Guid> DeletedFiles { get; set; }
+
+        public class UpdateExerciseCommandValidator : AbstractValidator<UpdateExerciseCommand>
         {
-            public CreateExerciseCommandValidator()
+            public UpdateExerciseCommandValidator()
             {
                 this.RuleFor(command => command.Title)
                     .MaximumLength(100)
@@ -36,21 +42,37 @@ namespace CoronaApi.MediatR.Exercise.Commands
                     .NotEmpty();
                 this.RuleFor(command => command.CourseId)
                     .NotEmpty();
-                this.RuleFor(command => command.Files)
+                this.RuleFor(command => command.Id)
                     .NotEmpty();
             }
         }
 
-        public class CreateExerciseCommandHandler : BaseCreateCommandHandler<CreateExerciseCommand, ExerciseDto, DbExercise>
+        public class UpdateExerciseCommandHandler : IRequestHandler<UpdateExerciseCommand, ExerciseDto>
         {
+            private readonly ApplicationDbContext _dbContext;
             private readonly IHttpContextAccessor _httpContextAccessor;
+            private readonly IMapper _mapper;
 
-            public CreateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IHttpContextAccessor contextAccessor) : base(mapper, dbContext)
+            public UpdateExerciseCommandHandler(IMapper mapper, ApplicationDbContext dbContext, IHttpContextAccessor contextAccessor)
             {
+                this._mapper = mapper;
+                this._dbContext = dbContext;
                 this._httpContextAccessor = contextAccessor;
             }
 
-            public override async Task CustomCreateLogicAsync(CreateExerciseCommand request, DbExercise dbModel)
+            public async Task<ExerciseDto> Handle(UpdateExerciseCommand request, CancellationToken cancellationToken)
+            {
+                var existing = await this._dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == request.Id, cancellationToken)
+                               ?? throw new NotFoundException(nameof(DbExercise), request.Id);
+                this._mapper.Map(request, existing);
+
+                await this.SaveFiles(request, existing);
+                this._dbContext.Update(existing);
+
+                return this._mapper.Map<ExerciseDto>(existing);
+            }
+
+            public async Task SaveFiles(UpdateExerciseCommand request, DbExercise dbModel)
             {
                 //TODO: maybe smarter logic
                 foreach (var requestFile in request.Files)

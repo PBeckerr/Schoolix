@@ -68,7 +68,7 @@ namespace CoronaApi
 
             services.AddResponseCompression();
             services.AddResponseCaching();
-            services.AddControllersWithViews()
+            services.AddControllers()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                     .AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
 
