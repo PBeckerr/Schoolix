@@ -31,8 +31,7 @@ import { RouterModule } from '@angular/router';
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      // { path: 'counter', component: CounterComponent },
-      // { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'course/:id', component: CourseComponent },
     ]),
     CardModule
   ],
