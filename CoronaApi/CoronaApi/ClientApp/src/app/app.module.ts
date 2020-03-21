@@ -12,8 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NgModule } from '@angular/core';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RouterModule } from '@angular/router';
-
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { RouterModule } from '@angular/router';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'course/:id', component: CourseComponent },
     ]),
-    CardModule
+    CardModule,
+    ProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

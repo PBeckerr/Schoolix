@@ -1,1 +1,6 @@
-<p>course works!</p>
+<ng-container *ngIf="course; else spinner">
+  <h1>Kurs „{{course.name}}“ <span class="sub-title">({{course.teacher.name}}, {{course.subject.name}})</span></h1>
+</ng-container>
+<ng-template #spinner>
+  <p-progressSpinner></p-progressSpinner>
+</ng-template>
