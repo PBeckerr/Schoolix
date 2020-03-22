@@ -32,6 +32,7 @@ export enum AuthenticationResultStatus {
 
 export interface IUser {
   name: string;
+  userName: string;
   userType: UserType;
 }
 

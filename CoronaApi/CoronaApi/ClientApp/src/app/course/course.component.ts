@@ -15,6 +15,7 @@ export class CourseComponent implements OnInit {
 
   course: Course;
   userType: UserType;
+  userName: string;
   UserType = UserType;
   private authService: AuthorizeService;
 
@@ -37,6 +38,7 @@ export class CourseComponent implements OnInit {
 
     this.authService.getUser().subscribe(user => {
       this.userType = user.userType;
+      this.userName = user.userName;
     });
   }
 

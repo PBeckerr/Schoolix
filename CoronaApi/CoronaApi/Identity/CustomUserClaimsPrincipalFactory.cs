@@ -27,7 +27,9 @@ namespace CoronaApi.Identity
 
             var claims = new List<Claim>
             {
-                new Claim("userType", user.UserType.ToString())
+                new Claim("userType", user.UserType.ToString()),
+                new Claim("userName", user.Email),
+                new Claim("emailConfirmed", user.EmailConfirmed.ToString()),
             };
 
             context.IssuedClaims.AddRange(claims);
@@ -38,7 +40,7 @@ namespace CoronaApi.Identity
             //>Processing
             var user = await this._userManager.GetUserAsync(context.Subject);
 
-            context.IsActive = user != null && user.EmailConfirmed;
+            context.IsActive = user != null;
         }
     }
 }
