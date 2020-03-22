@@ -40,7 +40,8 @@ namespace CoronaApi
             services.AddDbContext<ApplicationDbContext>(options =>
                                                             options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => { options.SignIn.RequireConfirmedEmail = false; })
+                    .AddUserManager<SchoolUserManager>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()
@@ -90,6 +91,8 @@ namespace CoronaApi
             }
 
             services.AddTransient<IProfileService, ProfileService>();
+            services.AddHttpContextAccessor();
+            services.AddMemoryCache();
         }
 
         private void AddIdentityOptions(IServiceCollection services)

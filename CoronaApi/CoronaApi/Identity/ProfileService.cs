@@ -29,7 +29,10 @@ namespace CoronaApi.Identity
             {
                 new Claim("userType", user.UserType.ToString()),
                 new Claim("userName", user.Email),
+                new Claim("userId", user.Id),
                 new Claim("emailConfirmed", user.EmailConfirmed.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             context.IssuedClaims.AddRange(claims);

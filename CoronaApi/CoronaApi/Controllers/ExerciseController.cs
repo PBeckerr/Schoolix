@@ -22,7 +22,12 @@ namespace CoronaApi.Controllers
         [HttpGet]
         public async Task<List<ExerciseDto>> GetAll([FromQuery] GetAllExerciseQuery query)
         {
-            var claimsPrincipal = this.User;
+            return await this.Mediator.Send(query);
+        }
+
+        [HttpGet("my")]
+        public async Task<List<ExerciseDto>> MyExercises([FromQuery] GetMyExerciseQuery query)
+        {
             return await this.Mediator.Send(query);
         }
 
