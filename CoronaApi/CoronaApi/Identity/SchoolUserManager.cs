@@ -35,8 +35,13 @@ namespace CoronaApi.Identity
 
         public override string GetUserId(ClaimsPrincipal principal)
         {
-            return principal.Claims.Single(claim => claim.Type == "userId")
-                            .Value;
+            var userId = principal.Claims.SingleOrDefault(claim => claim.Type == "userId")?.Value;
+            if (userId != null)
+            {
+                return userId;
+            }
+
+            return base.GetUserId(principal);
         }
 
         public override async Task<ApplicationUser> GetUserAsync(ClaimsPrincipal principal)
