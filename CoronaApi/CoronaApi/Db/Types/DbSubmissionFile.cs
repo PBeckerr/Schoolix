@@ -2,7 +2,7 @@ using System;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbSubmissionFile
+    public class DbSubmissionFile: IHasId
     {
         public Guid SubmissionId { get; set; }
 

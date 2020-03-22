@@ -1,8 +1,9 @@
 using System;
+using CoronaApi.Db.ContextSeeding;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbExerciseFile
+    public class DbExerciseFile : IHasId
     {
         public Guid ExerciseId { get; set; }
 

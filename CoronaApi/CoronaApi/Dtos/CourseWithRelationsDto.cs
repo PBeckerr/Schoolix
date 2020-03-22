@@ -14,24 +14,24 @@ namespace CoronaApi.Dtos
 
         public string Name { get; set; }
 
-        public List<SchoolClassDto> Classes { get; set; }
+        public List<SchoolClassDto> SchoolClasses { get; set; }
 
         public List<ExerciseDto> Exercises { get; set; }
 
         public Guid SubjectId { get; set; }
-        
-        public virtual SubjectDto Subject { get; set; }
 
-        public virtual List<ApplicationUserDto> Students { get; set; }
+        public SubjectDto Subject { get; set; }
 
-        public Guid TeacherId { get; set; }
-        
+        public List<ApplicationUserDto> Students { get; set; }
+
+        public string TeacherId { get; set; }
+
         public ApplicationUserDto Teacher { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DbCourse, CourseWithRelationsDto>()
-                .ForMember(e => e.Classes, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)))
+                .ForMember(e => e.SchoolClasses, o => o.MapFrom(e => e.ClassRelations.Select(cr => cr.Class)))
                 .ForMember(e => e.Students, o => o.MapFrom(e => e.StudentRelations.Select(e => e.Student)));
         }
     }

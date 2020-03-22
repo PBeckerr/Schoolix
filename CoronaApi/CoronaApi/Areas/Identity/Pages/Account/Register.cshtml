@@ -8,29 +8,40 @@
     <div class="offset-md-3 col-md-6">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Neues Konto erstellen.</h4>
-            <hr />
+            <hr/>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input asp-for="Input.Email" class="form-control"/>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+                <input asp-for="Input.Password" class="form-control"/>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <input asp-for="Input.ConfirmPassword" class="form-control"/>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.UserType"></label>
-                <select asp-for="Input.UserType" class="form-control" asp-items="@(@Html.GetEnumSelectList<UserType>())">
+                <select asp-for="Input.UserType" id="userTypeSelection" class="form-control" asp-items="@Html.GetEnumSelectList<UserType>()">
 
-                    </select>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </select>
+                <span asp-validation-for="Input.UserType" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="schoolSelection">
+                <label asp-for="Input.SchoolId"></label>
+                <select asp-for="Input.SchoolId" class="form-control" asp-items="@Model.Input.Schools">
+                </select>
+                <span asp-validation-for="Input.SchoolId" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="schoolNameSection">
+                <label asp-for="Input.SchoolName"></label>
+                <input asp-for="Input.SchoolName" class="form-control"/>
+                <span asp-validation-for="Input.SchoolName" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Registrieren</button>
         </form>
@@ -38,5 +49,24 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
+
+    <script>
+        $(document).ready(function(){
+            $("#userTypeSelection").change(function(){
+                var val = $(this).val();
+
+                if(val === '@((int) UserType.School)'){
+                    $("#schoolSelection").hide();
+                    $("#schoolNameSection").show();
+                }
+                else{
+                    $("#schoolSelection").show();
+                    $("#schoolNameSection").hide();
+                }
+            });
+
+            $("#userTypeSelection").change();
+        })
+    </script>
 }

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using CoronaApi.Db.ContextSeeding;
 using CoronaApi.Models;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbSchool
+    public class DbSchool : IHasId
     {
         public DbSchool()
         {
@@ -25,5 +26,6 @@ namespace CoronaApi.Db.Types
         public virtual HashSet<DbSchoolYear> SchoolYears { get; set; }
 
         public virtual HashSet<ApplicationUser> Users { get; set; }
+        public string Name { get; set; }
     }
 }

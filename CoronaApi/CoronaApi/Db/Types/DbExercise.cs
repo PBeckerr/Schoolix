@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using CoronaApi.Db.ContextSeeding;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbExercise
+    public class DbExercise : IHasId
     {
         public DbExercise()
         {
@@ -24,7 +25,7 @@ namespace CoronaApi.Db.Types
         public virtual DbCourse Course { get; set; }
 
         public virtual HashSet<DbExerciseFile> ExerciseFiles { get; set; }
-        
+
         public virtual HashSet<DbSubmission> Submissions { get; set; }
     }
 }

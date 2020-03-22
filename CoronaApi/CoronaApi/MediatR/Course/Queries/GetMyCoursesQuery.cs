@@ -14,9 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.Course.Queries
 {
-    public class GetMyCoursesQuery : IRequest<List<CourseDto>>
+    public class GetMyCoursesQuery : IRequest<List<CourseWithRelationsDto>>
     {
-        public class GetMyCourseQueryHandler : IRequestHandler<GetMyCoursesQuery, List<CourseDto>>
+        public class GetMyCourseQueryHandler : IRequestHandler<GetMyCoursesQuery, List<CourseWithRelationsDto>>
         {
             private readonly ApplicationDbContext _dbContext;
             private readonly IMapper _mapper;
@@ -32,12 +32,12 @@ namespace CoronaApi.MediatR.Course.Queries
                 this._httpContextAccessor = contextAccessor;
             }
 
-            public async Task<List<CourseDto>> Handle(GetMyCoursesQuery query, CancellationToken cancellationToken)
+            public async Task<List<CourseWithRelationsDto>> Handle(GetMyCoursesQuery query, CancellationToken cancellationToken)
             {
                 var user = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
 
                 return await this._dbContext.Courses.Where(e => e.StudentRelations.Any(relation => relation.StudentId == user.Id))
-                                 .ProjectTo<CourseDto>(this._mapper.ConfigurationProvider)
+                                 .ProjectTo<CourseWithRelationsDto>(this._mapper.ConfigurationProvider)
                                  .ToListAsync(cancellationToken);
             }
         }

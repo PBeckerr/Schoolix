@@ -20,13 +20,13 @@ namespace CoronaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<CourseDto>> GetAll([FromQuery] GetAllCourseQuery query)
+        public async Task<List<CourseWithRelationsDto>> GetAll([FromQuery] GetAllCourseQuery query)
         {
             return await this.Mediator.Send(query);
         }
 
         [HttpGet("my")]
-        public async Task<List<CourseDto>> MyCourses([FromQuery] GetMyCoursesQuery query)
+        public async Task<List<CourseWithRelationsDto>> MyCourses([FromQuery] GetMyCoursesQuery query)
         {
             return await this.Mediator.Send(query);
         }

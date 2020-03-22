@@ -1,13 +1,14 @@
 using System;
+using CoronaApi.Db.ContextSeeding;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbSubject
+    public class DbSubject: IHasId
     {
         public Guid Id { get; set; }
-        
+
         public string Name { get; set; }
-        
+
         public Guid SchoolId { get; set; }
     }
 }

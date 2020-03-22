@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
@@ -72,11 +73,24 @@ namespace CoronaApi.Areas.Identity.Pages.Account
             [Required]
             [Display(Name ="Typ")]
             public UserType UserType { get; set; }
+            public SelectList Schools { get; set; }
+
+            [Display(Name = "Schule")]
+            public Guid? SchoolId { get; set; }
+
+            [Display(Name = "Name der Schule")]
+            public string SchoolName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            Input = new InputModel();
+            using (var ser = this._serviceScopeFactory.CreateScope())
+            {
+                var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
+                Input.Schools = new SelectList(dbContext.Schools.Select(school => new{Id = school.Id, Value = school.Name}).ToList(), "Id", "Value");
+            }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -86,30 +100,40 @@ namespace CoronaApi.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                EntityEntry<DbSchool> school = null;
-                using (var ser = this._serviceScopeFactory.CreateScope())
-                {
-                    var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
-                    school = dbContext.Schools.Add(new DbSchool()
-                    {
-                    });
-                    await dbContext.SaveChangesAsync();
-                }
-
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, UserType = Input.UserType};
-                user.SchoolId = school.Entity.Id;
+                if (Input.UserType == UserType.School && Input.SchoolId == null)
+                {
+                    EntityEntry<DbSchool> school = null;
+                    using (var ser = this._serviceScopeFactory.CreateScope())
+                    {
+                        var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
+                        school = dbContext.Schools.Add(new DbSchool()
+                        {
+                            Name = Input.SchoolName
+                        });
+                        await dbContext.SaveChangesAsync();
+                    }
+                    user.SchoolId = school.Entity.Id;
+                }
+                else
+                {
+                    user.SchoolId = Input.SchoolId.Value;
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    using (var ser = this._serviceScopeFactory.CreateScope())
+                    if (Input.UserType == UserType.School)
                     {
-                        var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
-                        var dbSchool = dbContext.Schools.Find(school.Entity.Id);
-                        dbSchool.OwnerId = user.Id;
-                        await dbContext.SaveChangesAsync();
+                        using (var ser = this._serviceScopeFactory.CreateScope())
+                        {
+                            var dbContext = ser.ServiceProvider.GetService<ApplicationDbContext>();
+                            var dbSchool = dbContext.Schools.Find(user.SchoolId);
+                            dbSchool.OwnerId = user.Id;
+                            await dbContext.SaveChangesAsync();
+                        }
                     }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
