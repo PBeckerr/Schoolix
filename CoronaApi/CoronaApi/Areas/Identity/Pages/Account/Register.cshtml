@@ -1,13 +1,13 @@
 @page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrieren";
 }
 
 <div class="row">
     <div class="offset-md-3 col-md-6">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+            <h4>Neues Konto erstellen.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -28,11 +28,11 @@
             <div class="form-group">
                 <label asp-for="Input.UserType"></label>
                 <select asp-for="Input.UserType" class="form-control" asp-items="@(@Html.GetEnumSelectList<UserType>())">
-          
+
                     </select>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Registrieren</button>
         </form>
     </div>
 </div>
