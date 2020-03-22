@@ -91,7 +91,7 @@ namespace CoronaApi
             }
 
             services.AddTransient<IProfileService, ProfileService>();
-            services.AddHttpContextAccessor();
+            // services.AddHttpContextAccessor();
             services.AddMemoryCache();
         }
 

@@ -24,13 +24,12 @@ namespace CoronaApi.MediatR.SchoolYear.Commands
 
         public DateTime End { get; set; }
 
-        public Guid SchoolId { get; set; }
-
 
         public class UpdateSchoolYearCommandValidator : AbstractValidator<UpdateSchoolYearCommand>
         {
             public UpdateSchoolYearCommandValidator(UserManager<ApplicationUser> userManager,
-                IHttpContextAccessor contextAccessor)
+                                                    ApplicationDbContext applicationDbContext,
+                                                    IHttpContextAccessor contextAccessor)
             {
                 RuleFor(c => c.Id)
                     .NotEmpty();
@@ -39,14 +38,14 @@ namespace CoronaApi.MediatR.SchoolYear.Commands
                     .LessThan(c => c.End);
                 RuleFor(c => c.End)
                     .NotEmpty();
-                RuleFor(c => c.SchoolId)
-                    .NotEmpty();
-                RuleFor(command => command.SchoolId)
-                    .MustAsync(async (schoolId, cancellationToken) =>
+                RuleFor(command => command.Id)
+                    .MustAsync(async (schoolYearId, cancellationToken) =>
                     {
                         var user = await userManager.GetUserAsync(contextAccessor.HttpContext.User);
-                        return user.SchoolId == schoolId;
-                    });
+                        var schoolYear = applicationDbContext.SchoolYears.Find(schoolYearId);
+                        return user.SchoolId == schoolYear.SchoolId;
+                    })
+                    .WithMessage("Unauthorized");
             }
         }
 
@@ -67,7 +66,6 @@ namespace CoronaApi.MediatR.SchoolYear.Commands
                 var existing =
                     await this._dbContext.SchoolYears.SingleOrDefaultAsync(e => e.Id == request.Id, cancellationToken)
                     ?? throw new NotFoundException(nameof(DbSchoolYear), request.Id);
-                _mapper.Map(request, existing);
 
                 _dbContext.Update(existing);
 

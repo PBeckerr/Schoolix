@@ -10,9 +10,11 @@ using CoronaApi.Db;
 using CoronaApi.Db.Types;
 using CoronaApi.Dtos;
 using CoronaApi.Mapping;
+using CoronaApi.Models;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.Submission.Commands
@@ -29,7 +31,9 @@ namespace CoronaApi.MediatR.Submission.Commands
 
         public class UpdateSubmissionCommandValidator : AbstractValidator<UpdateSubmissionCommand>
         {
-            public UpdateSubmissionCommandValidator()
+            public UpdateSubmissionCommandValidator(UserManager<ApplicationUser> userManager,
+                                                    ApplicationDbContext applicationDbContext,
+                                                    IHttpContextAccessor contextAccessor)
             {
                 this.RuleFor(command => command.Date)
                     .NotEmpty();
@@ -37,6 +41,16 @@ namespace CoronaApi.MediatR.Submission.Commands
                     .NotEmpty();
                 this.RuleFor(command => command.ExerciseId)
                     .NotEmpty();
+
+                this.RuleFor(command => command.ExerciseId)
+                    .MustAsync(async (exerciseId, cancellationToken) =>
+                    {
+                        var user = await userManager.GetUserAsync(contextAccessor.HttpContext.User);
+                        var dbExercise = applicationDbContext.Exercises.Include(exercise => exercise.Course.Subject)
+                                                             .Single(exercise => exercise.Id == exerciseId);
+                        return user.SchoolId == dbExercise.Course.Subject.SchoolId;
+                    })
+                    .WithMessage("Unauthorized");
             }
         }
 

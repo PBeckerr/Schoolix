@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,8 +8,11 @@ using CoronaApi.Db;
 using CoronaApi.Db.Types;
 using CoronaApi.Dtos;
 using CoronaApi.Mapping;
+using CoronaApi.Models;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.Course.Commands
@@ -23,7 +27,9 @@ namespace CoronaApi.MediatR.Course.Commands
 
         public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseCommand>
         {
-            public UpdateCourseCommandValidator(ApplicationDbContext applicationDbContext)
+            public UpdateCourseCommandValidator(UserManager<ApplicationUser> userManager,
+                                                ApplicationDbContext applicationDbContext,
+                                                IHttpContextAccessor contextAccessor)
             {
                 this.RuleFor(c => c.Name)
                     .NotEmpty();
@@ -37,6 +43,16 @@ namespace CoronaApi.MediatR.Course.Commands
                         var teacher = await applicationDbContext.ApplicationUsers.SingleOrDefaultAsync(user => user.Id == s);
                         return teacher != null;
                     });
+                this.RuleFor(command => command.Id)
+                    .NotEmpty();
+                this.RuleFor(command => command.Id)
+                    .MustAsync(async (courseId, cancellationToken) =>
+                    {
+                        var user = await userManager.GetUserAsync(contextAccessor.HttpContext.User);
+                        var courseIsInSchool = applicationDbContext.Courses.Any(course => course.Id == courseId && course.Subject.SchoolId == user.SchoolId);
+                        return user.UserType != UserType.Student && courseIsInSchool;
+                    })
+                    .WithMessage("Unauthorized");
             }
         }
 
