@@ -7,17 +7,17 @@
             <img src="../../assets/images/logo.svg" />
           </a>
         </li>
-        <li *ngIf="!userName" class="nav-item">
+        <li *ngIf="!(isAuthenticated | async)" class="nav-item">
           <a class="nav-link text-dark" [routerLink]="['/authentication/login']">Login</a>
         </li>
-        <li *ngIf="!userName" class="nav-item">
+        <li *ngIf="!(isAuthenticated | async)" class="nav-item">
           <a class="nav-link text-dark" [routerLink]="['/authentication/register']">Register</a>
         </li>
-        <li *ngIf="userName" class="nav-item">
+        <li *ngIf="isAuthenticated | async" class="nav-item">
           <a  class="nav-link text-dark" [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
         </li>
-        <li *ngIf="userName" class="nav-item">
-          <a>{{this.userName}}</a>
+        <li *ngIf="isAuthenticated | async" class="nav-item">
+          <a>{{ userName | async }}</a>
         </li>
       </ul>
     </div>
