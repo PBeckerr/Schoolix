@@ -65,8 +65,8 @@ namespace CoronaApi.MediatR.SchoolYear.Commands
                 CancellationToken cancellationToken)
             {
                 var existing =
-                    await this._dbContext.Exercises.SingleOrDefaultAsync(e => e.Id == request.Id, cancellationToken)
-                    ?? throw new NotFoundException(nameof(DbExercise), request.Id);
+                    await this._dbContext.SchoolYears.SingleOrDefaultAsync(e => e.Id == request.Id, cancellationToken)
+                    ?? throw new NotFoundException(nameof(DbSchoolYear), request.Id);
                 _mapper.Map(request, existing);
 
                 _dbContext.Update(existing);

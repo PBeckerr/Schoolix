@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoronaApi.Dtos;
@@ -12,29 +13,30 @@ namespace CoronaApi.Controllers
     {
         [HttpPost]
         [Authorize(Policy = Statics.SchoolClaim)]
-        public async Task<SchoolYearDto> Create([FromForm]CreateSchoolYearCommand command)
+        public async Task<SchoolYearDto> Create(CreateSchoolYearCommand command)
         {
-            return await Mediator.Send(command);
+            return await this.Mediator.Send(command);
         }
 
         [HttpGet]
-        public async Task<List<SchoolYearDto>> GetAll([FromQuery]GetAllSchoolYearsQuery query)
+        public async Task<List<SchoolYearDto>> GetAll([FromQuery] GetAllSchoolYearsQuery query)
         {
-            return await Mediator.Send(query);
+            return await this.Mediator.Send(query);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<SchoolYearDto> GetById([FromQuery]GetSchoolYearByIdQuery query)
+        public async Task<SchoolYearDto> GetById([FromQuery] GetSchoolYearByIdQuery query)
         {
-            return await Mediator.Send(query);
+            return await this.Mediator.Send(query);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Policy = Statics.SchoolClaim)]
-        public async Task<SchoolYearDto> Update([FromForm] UpdateSchoolYearCommand command)
+        public async Task<SchoolYearDto> Update([FromRoute] Guid id, [FromBody] UpdateSchoolYearCommand command)
         {
-            return await Mediator.Send(command);
+            command.Id = id;
+            return await this.Mediator.Send(command);
         }
     }
 }
