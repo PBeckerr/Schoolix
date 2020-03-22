@@ -3,7 +3,7 @@ using CoronaApi.Db.ContextSeeding;
 
 namespace CoronaApi.Db.Types
 {
-    public class DbCourseSchoolClassRelation : IHasId
+    public class DbCourseSchoolClassRelation
     {
         public Guid CourseId { get; set; }
 
@@ -12,6 +12,5 @@ namespace CoronaApi.Db.Types
         public Guid ClassId { get; set; }
 
         public DbSchoolClass Class { get; set; }
-        public Guid Id { get; set; }
     }
 }
