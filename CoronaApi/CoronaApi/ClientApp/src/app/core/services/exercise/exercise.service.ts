@@ -28,4 +28,11 @@ export class ExerciseService {
     return this.http.get<Exercise[]>(this.exercisesUrl + '/my');
   }
 
+  create(exercise: Exercise): Observable<Exercise> {
+    return this.http.post<Exercise>(this.exercisesUrl, exercise);
+  }
+
+  update(exercise: Exercise): Observable<Exercise> {
+    return this.http.put<Exercise>(this.exercisesUrl + '/' + exercise.id, exercise);
+  }
 }

@@ -27,4 +27,12 @@ export class CourseService {
   getUserCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(this.courseUrl + '/my');
   }
+
+  create(course: Course): Observable<Course> {
+    return this.http.post<Course>(this.courseUrl, course);
+  }
+
+  update(course: Course): Observable<Course> {
+    return this.http.put<Course>(this.courseUrl + '/' + course.id, course);
+  }
 }
