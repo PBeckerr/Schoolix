@@ -27,7 +27,7 @@ namespace CoronaApi.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<SchoolYearDto> GetById([FromQuery] GetSchoolYearByIdQuery query)
+        public async Task<SchoolYearDto> GetById([FromRoute] GetSchoolYearByIdQuery query)
         {
             return await this.Mediator.Send(query);
         }

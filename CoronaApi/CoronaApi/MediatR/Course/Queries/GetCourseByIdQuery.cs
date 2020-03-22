@@ -15,11 +15,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoronaApi.MediatR.Course.Queries
 {
-    public class GetCourseByIdQuery : IRequest<CourseDto>
+    public class GetCourseByIdQuery : IRequest<CourseWithRelationsDto>
     {
         public Guid Id { get; set; }
 
-        public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, CourseDto>
+        public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, CourseWithRelationsDto>
         {
             private readonly ApplicationDbContext _dbContext;
             private readonly IMapper _mapper;
@@ -35,17 +35,17 @@ namespace CoronaApi.MediatR.Course.Queries
                 this._httpContextAccessor = contextAccessor;
             }
 
-            public async Task<CourseDto> Handle(GetCourseByIdQuery query, CancellationToken cancellationToken)
+            public async Task<CourseWithRelationsDto> Handle(GetCourseByIdQuery query, CancellationToken cancellationToken)
             {
                 var user = await this._userManager.GetUserAsync(this._httpContextAccessor.HttpContext.User);
 
-                var result = await this._dbContext.Courses.Where(e => e.Teacher.SchoolId == user.SchoolId)
-                                       .ProjectTo<CourseDto>(this._mapper.ConfigurationProvider)
+                var result = await this._dbContext.Courses.Where(e => e.Subject.SchoolId == user.SchoolId)
+                                       .ProjectTo<CourseWithRelationsDto>(this._mapper.ConfigurationProvider)
                                        .SingleOrDefaultAsync(e => e.Id == query.Id, cancellationToken);
 
                 if (result == null)
                 {
-                    throw new NotFoundException(nameof(CourseDto), query.Id);
+                    throw new NotFoundException(nameof(CourseWithRelationsDto), query.Id);
                 }
 
                 return result;

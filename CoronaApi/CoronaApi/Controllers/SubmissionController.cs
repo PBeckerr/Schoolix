@@ -23,7 +23,7 @@ namespace CoronaApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<SubmissionDto> GetById(GetSubmissionByIdQuery query)
+        public async Task<SubmissionDto> GetById([FromRoute]GetSubmissionByIdQuery query)
         {
             return await this.Mediator.Send(query);
         }

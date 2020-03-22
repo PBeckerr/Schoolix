@@ -32,7 +32,7 @@ namespace CoronaApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ExerciseDto> GetById(GetExerciseByIdQuery query)
+        public async Task<ExerciseDto> GetById([FromRoute]GetExerciseByIdQuery query)
         {
             return await this.Mediator.Send(query);
         }

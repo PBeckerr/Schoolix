@@ -33,7 +33,7 @@ namespace CoronaApi.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<CourseDto> GetById([FromQuery] GetCourseByIdQuery query)
+        public async Task<CourseWithRelationsDto> GetById([FromRoute] GetCourseByIdQuery query)
         {
             return await this.Mediator.Send(query);
         }
