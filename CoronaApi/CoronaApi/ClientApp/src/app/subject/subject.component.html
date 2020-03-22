@@ -1,0 +1,7 @@
+<ng-container *ngIf="subject; else spinner">
+  <h1>Fach „{{subject.name}}“</h1>
+  <!-- TODO: Maybe add Courses -->
+</ng-container>
+<ng-template #spinner>
+  <p-progressSpinner></p-progressSpinner>
+</ng-template>

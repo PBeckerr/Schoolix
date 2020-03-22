@@ -1,7 +1,6 @@
 import { AccordionModule } from 'primeng/accordion';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AppComponent } from './app.component';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +9,8 @@ import { CardModule } from 'primeng/card';
 import { CourseComponent } from './course/course.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { SubjectComponent } from "./subject/subject.component";
+import { SubjectsComponent } from "./subjects/subjects.component";
 import { FileUploadModule } from 'primeng/fileupload';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
@@ -26,7 +27,9 @@ import { RouterModule } from '@angular/router';
     HomeComponent,
     CourseComponent,
     CoursesComponent,
-    ExercisesComponent
+    ExercisesComponent,
+    SubjectComponent,
+    SubjectsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,6 +40,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'course/:id', component: CourseComponent },
+      { path: 'subject/:id', component: SubjectComponent }
     ]),
     CardModule,
     ProgressSpinnerModule,

@@ -1,26 +1,26 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../core/models/course';
-import { CourseService } from '../core/services/course/course.service';
-import { UserService } from '../core/services/user/user.service';
+import {Subject} from "../core/models/subject";
+import {AuthorizeService} from "../../api-authorization/authorize.service";
+import {SubjectService} from "../core/services/subject/subject.service";
+import {ActivatedRoute} from "@angular/router";
 import { UserType } from '../core/models/user';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
+import {UserService} from "../core/services/user/user.service";
 
 @Component({
-  selector: 'app-course',
-  templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss']
+  selector: 'app-subject',
+  templateUrl: './subject.component.html',
+  styleUrls: ['./subject.component.css']
 })
-export class CourseComponent implements OnInit {
+export class SubjectComponent implements OnInit {
 
-  course: Course;
+  subject: Subject;
   userType: UserType;
   userName: string;
   UserType = UserType;
   private authService: AuthorizeService;
 
   constructor(
-    private courseService: CourseService,
+    private subjectService: SubjectService,
     private route: ActivatedRoute,
     private userService: UserService,
     private authorizeService: AuthorizeService
@@ -31,8 +31,8 @@ export class CourseComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.courseService.getCourse(params['id']).subscribe(course => {
-        this.course = course;
+      this.subjectService.get(params['id']).subscribe(subject => {
+        this.subject = subject;
       });
     });
 
@@ -41,5 +41,4 @@ export class CourseComponent implements OnInit {
       this.userName = user.userName;
     });
   }
-
 }

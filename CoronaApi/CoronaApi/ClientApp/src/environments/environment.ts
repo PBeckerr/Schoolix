@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiUseBaseUrlAsPrefix: true,
   apiCourses: 'course',
-  apiExercises: 'exercise'
+  apiExercises: 'exercise',
+  apiSubjects: 'subject'
 };
 
 /*

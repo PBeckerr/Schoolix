@@ -1,0 +1,5 @@
+<div class="container">
+  <div class="course" *ngFor="let subject of subjects">
+    <p-card (click)="routeSubject(subject.id)" [header]="subject.name"></p-card>
+  </div>
+</div>
