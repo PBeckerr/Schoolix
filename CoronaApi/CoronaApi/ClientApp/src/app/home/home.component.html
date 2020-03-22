@@ -1,7 +1,14 @@
 <ng-container *ngIf="user">
   <div [ngSwitch]="user.userType">
     <div *ngSwitchCase="UserType.School">
-
+      <div>
+        <h1>Schuljahre</h1>
+        <!-- TODO: Add SchoolYears component  -->
+      </div>
+      <div>
+        <h1>Fächer</h1>
+        <!-- TODO: Add Subjects component -->
+      </div>
     </div>
     <div *ngSwitchCase="UserType.Teacher">
       <div>
