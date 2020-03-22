@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoronaApi.Controllers
 {
-    [Authorize(Policy = "School")]
+    [Authorize]
     public class ExerciseController : BaseV1ApiController
     {
         [HttpPost]
+        [Authorize(Policy = Statics.TeacherOrSchoolClaim)]
         public async Task<ExerciseDto> Post([FromForm] CreateExerciseCommand command)
         {
             return await this.Mediator.Send(command);
@@ -32,6 +33,7 @@ namespace CoronaApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = Statics.TeacherOrSchoolClaim)]
         public async Task<ExerciseDto> Put([FromRoute] Guid id, [FromForm] UpdateExerciseCommand query)
         {
             query.Id = id;

@@ -51,9 +51,10 @@ namespace CoronaApi
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("School", builder => builder.RequireClaim("userType", "School"));
-                options.AddPolicy("Teacher", builder => builder.RequireClaim("userType", "Teacher"));
-                options.AddPolicy("Student", builder => builder.RequireClaim("userType", "Student"));
+                options.AddPolicy(Statics.SchoolClaim, builder => builder.RequireClaim("userType", "School"));
+                options.AddPolicy(Statics.TeacherClaim, builder => builder.RequireClaim("userType", "Teacher"));
+                options.AddPolicy(Statics.StudentClaim, builder => builder.RequireClaim("userType", "Student"));
+                options.AddPolicy(Statics.TeacherOrSchoolClaim, builder => builder.RequireClaim("userType", "School", "Teacher"));
             });
 
             //might be not desirable depending on project
