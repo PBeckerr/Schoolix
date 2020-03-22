@@ -25,6 +25,12 @@ namespace CoronaApi.Controllers
             return await this.Mediator.Send(query);
         }
 
+        [HttpGet("/mycourses")]
+        public async Task<List<CourseDto>> MyCourses([FromQuery] GetMyCoursesQuery query)
+        {
+            return await this.Mediator.Send(query);
+        }
+
         [HttpGet]
         [Route("{id}")]
         public async Task<CourseDto> GetById([FromQuery] GetCourseByIdQuery query)
