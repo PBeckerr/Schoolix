@@ -1,43 +1,31 @@
 import { Course } from '../../models/course';
 import { Exercise } from '../../models/exercise';
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { UserType } from '../../models/user';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExerciseService {
 
-  exercises: Exercise[] = [
-    {
-      id: '@example-exercise-01',
-      name: 'Erste Beispielaufgabe',
-      description: 'Diese Aufgabe ist <b>sehr</b> wichtig!',
-      expirationDate: '2020-05-05',
-      files: [
-        {
-          id: '@example-file-01',
-          name: 'datei1.pdf',
-          url: 'https://example.com/files/datei1.pdf'
-        },
-        {
-          id: '@example-file-02',
-          name: 'datei2.png',
-          url: 'https://example.com/files/datei2.png'
-        }
-      ]
-    }
-  ];
+  exercisesUrl: string;
 
-  constructor() { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.exercisesUrl = environment.apiExercises;
+    if (environment.apiUseBaseUrlAsPrefix) {
+      this.exercisesUrl = baseUrl + this.exercisesUrl;
+    }
+  }
 
   getExercise(id: string): Observable<Exercise> {
-    return of(this.exercises.find(exercise => exercise.id === id));
+    return this.http.get<Exercise>(this.exercisesUrl + '/' + id);
   }
 
   getUserExercises(): Observable<Exercise[]> {
-    return of(this.exercises);
+    return this.http.get<Exercise[]>(this.exercisesUrl + '/my');
   }
 
 }

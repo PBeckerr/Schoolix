@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   apiUseBaseUrlAsPrefix: true,
-  apiCourses: 'course'
+  apiCourses: 'course',
+  apiExercises: 'exercise'
 };
